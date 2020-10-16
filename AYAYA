@@ -1,0 +1,19 @@
+#include <mlx.h>
+int main(void)
+{
+  int	bpp;
+  int	size_line;
+  int	endian;
+  void *mlx;
+  void *window;
+  int  *img_data;
+  int  *img_ptr;
+
+  mlx = mlx_init();
+  window = mlx_new_window(mlx, 1000, 1000, "Title");
+  
+
+  img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
+  mlx_loop(mlx);
+  return (0);
+}

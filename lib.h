@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:33 by yihssan           #+#    #+#             */
-/*   Updated: 2020/03/11 22:41:42 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/10/16 03:09:09 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ typedef struct	s_lst
 # define I_X map->ix
 # define SD map->sd
 # define HH map->choice
-int 			ft_interhor(t_mapdata *map, int i, int j);
-int 			ft_interver(t_mapdata *map, int i, int j);
+/*int 			ft_interhor(t_mapdata *map, int i, int j);
+int 			ft_interver(t_mapdata *map, int i, int j);*/
 void			ft_init(t_mapdata *map);
 void			ft_error(char *s);
 void			ft_intro(int fd);
@@ -118,10 +118,16 @@ int				count_words(const char *str, char c);
 int				g_tiles;
 int				g_rows;
 int				g_case;
-double			g_horx;
-double			g_hory;
-double			g_verx;
-double			g_very;
+int				g_rayright;
+int				g_rayleft;
+int				g_rayup;
+int				g_raydown;
+double			g_wallhx;
+double			g_wallhy;
+double			g_wallvx;
+double			g_wallvy;
+double			g_wallx;
+double			g_wally;
 size_t			ft_strlen(const char *s);
 char			*ft_strdup(const char *s1);
 char			*ft_substr(char *dst, unsigned int start, size_t len);
@@ -143,11 +149,16 @@ int     		*g_img_data;
 int				g_playerx;
 int				g_playery;
 int				g_loli;
+int				g_hith;
+int				g_hitv;
 int     		draw(t_mapdata *map);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_strtrim(char *s1, const char *set);
 void			*ft_calloc(size_t count, size_t size);
 void			ft_bzero(void *s, size_t n);
 int				ft_cw(char i);
+double			colmdist(t_mapdata *map, double rayangle);
+void			cast2drays(t_mapdata *map);
+void	drawray(t_mapdata *map, double angle);
 
 #endif

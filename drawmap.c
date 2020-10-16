@@ -6,14 +6,14 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:35 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/14 18:23:08 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/10/16 04:08:54 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 #include <math.h>
 
-int ft_inter(t_mapdata *map)
+/*int ft_inter(t_mapdata *map)
 {
     int rayside;
     int rayupd;
@@ -113,7 +113,7 @@ int ft_interver(t_mapdata *map, int i, int j)
         }
     }
     return(0);
-}
+}*/
 
 int    deal_key(int key, t_mapdata *map)
 {
@@ -190,7 +190,7 @@ void	ft_draw_player(int color, t_mapdata *map)
             PX = PX + (WD * cos(RT) * 2) + (SD * cos(RT + 90*M_PI/180) * 2);
             PY = PY + (WD * sin(RT) * 2) + (SD * sin(RT + 90*M_PI/180) * 2);
         }
-    ft_inter(map);
+    cast2drays(map);
     g_img_data[((int)PY) * WH + ((int)PX)] = color;   
 }
 
