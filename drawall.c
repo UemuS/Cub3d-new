@@ -6,70 +6,69 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 22:10:22 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 04:12:21 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/10/16 05:49:00 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-void    ft_drawsquare(int y, int x, int color, t_mapdata *map)
+double	wallheight(double rayangle, t_mapdata *map)
 {
-    int i;
-    int j;
+	double prjplane;
+	double wallh;
+	double dist;
 
-    i = 0;
-    j = 0;
+	g_hit_side = (g_hith) ? 1 : 0;
+	dist = colmdist(map, rayangle) * cos(rayangle - RT);
+	prjplane = (WH / 2) / tan(M_PI / 6);
+	wallh = (32 / dist) * prjplane;
+	return (wallh);
+}
 
-	while (j < (HT/g_rows))
+int		colmcolor()
+{
+	if (g_rayup && g_hith)
+		return (0x484D6D);
+	if (g_rayleft && g_hitv)
+		return (0x2B193D);
+	if (g_raydown && g_hith)
+		return (0xF5F5F5);
+	if (g_rayright && g_hitv)
+		return (0xFF5A5F);
+	return (0);
+}
+
+void	drawcolm(int col, double wallh, t_mapdata *map)
+{
+	int i;
+	int wall;
+
+	wall = (int)wallh;
+	i = (HT / 2) - (wall / 2);
+	while (i < (HT / 2) + (wall / 2))
 	{
-		i = 0;
-		while (i < (WH/g_case))
-		{
-			g_img_data[(y * (HT/g_rows) + j) * WH + (x * (WH/g_case) + i)] = color;
-			i++;
-		}
-		j++;
+		if (i >=0 && i < HT && col >= 0 && col < WH)
+			g_img_data[i * WH + col] = colmcolor();
+		i++;
 	}
 }
 
-void 	fline(double rayangle, double raylength, t_mapdata *map)
-{
-	int i;
-	
-	i = 0;
-	while(i <= raylength)
-	{
-		//printf("%f %f %d %f %f\n", PX, PY, WH, rayangle, raylength);
-		g_img_data[(int)(PY + sin(rayangle) * i) * WH + (int)(PX + cos(rayangle) * i)] = 0xaff469;
-		i++;
-	} 
-}
-
-
-void	cast2drays(t_mapdata *map)
+void	castrays(t_mapdata *map)
 {
 	int	col;
 	double rayangle;
-
+	double wallh;
+	double an;
+	
+	
 	rayangle = RT - (M_PI / 6);
+	an = rayangle;
 	col = 0;
 	while (col < WH)
 	{
-		drawray(map, rayangle);
+		wallh = wallheight(rayangle, map);
+		drawcolm(col, wallh, map);
 		rayangle += (M_PI / 3) / WH;
 		col++;
 	}
-}
-
-void	drawray(t_mapdata *map, double angle)
-{
-	double raylength;
-	
-	
-	raylength = colmdist(map, angle);
-	/*raylength = 60;
-	line(PX, PY, PX + (cos(angle) * raylength), PY + (sin(angle) * raylength), map);
-	printf("%lf %lf\n", PX, PY);
-	line(PX, PY, g_wallx, g_wally, map);*/
-	fline(angle, raylength, map); /*best result in 2D*/
 }

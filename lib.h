@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:33 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 03:09:09 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/10/16 05:51:49 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int				g_case;
 int				g_rayright;
 int				g_rayleft;
 int				g_rayup;
+int				g_exit;
 int				g_raydown;
 double			g_wallhx;
 double			g_wallhy;
@@ -138,7 +139,7 @@ int				ft_check_fc(int i, int j, int k);
 void			ft_fill_fc(t_mapdata *map);
 void			ft_drawmap(t_mapdata *map);
 void 			ft_check_stuff(int y, int x, t_mapdata *map);
-void			ft_draw_player(int color, t_mapdata *map);
+void			ft_draw_player(t_mapdata *map);
 t_list			*ft_lstnew(void *content);
 void			ft_drawall(t_mapdata *map);
 void    		ft_drawsquare(int y, int x, int color, t_mapdata *map);
@@ -151,6 +152,7 @@ int				g_playery;
 int				g_loli;
 int				g_hith;
 int				g_hitv;
+int				g_hit_side;
 int     		draw(t_mapdata *map);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_strtrim(char *s1, const char *set);
@@ -158,7 +160,7 @@ void			*ft_calloc(size_t count, size_t size);
 void			ft_bzero(void *s, size_t n);
 int				ft_cw(char i);
 double			colmdist(t_mapdata *map, double rayangle);
-void			cast2drays(t_mapdata *map);
+void	castrays(t_mapdata *map);
 void	drawray(t_mapdata *map, double angle);
 
 #endif

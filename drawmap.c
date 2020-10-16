@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:35 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 04:08:54 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/10/16 05:54:41 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ int    deal_key(int key, t_mapdata *map)
         SD = 1;
     if (key == 1)
         WD = -1;
+    if (key == 53)
+        g_exit = 1;
     return(1);
 }
 int    release_key(int key, t_mapdata *map)
@@ -160,25 +162,53 @@ void	ft_drawall(t_mapdata *map)
 		x = -1;
 		while (MAP2D[y][++x])
 		{
-			if (MAP2D[y][x] == '1')
+			/*if (MAP2D[y][x] == '1')
 				ft_drawsquare(y, x, 0xffd015, map);
 			else
-				ft_drawsquare(y, x, 0x000000, map);
+				ft_drawsquare(y, x, 0x000000, map);*/
             if (MAP2D[y][x] != '0' && MAP2D[y][x] != '1')
                 ft_check_stuff(y, x, map);
 		}
 	}
 }
+void	drawground(t_mapdata *map)
+{
+	int i = HT/2;
+	int	j;
+	while (i < HT)
+	{
+		j = 0;
+		while (j < WH)
+		{
+			g_img_data[i * WH + j] = 0x986152;
+			j++;
+		}		
+		i++;
+	}
+}
 
 int     draw(t_mapdata *map)
 {
-       ft_drawall(map);
-    ft_draw_player(0xFFFFFF, map);
+    int	bpp;
+	int	size_line;
+	int	endian;
+    
+    g_img_ptr = mlx_new_image(g_mlx_ptr, WH, HT);
+	g_img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
+    drawground(map);
+    ft_drawall(map);
+    ft_draw_player(map);
     mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_img_ptr, 0, 0);
-    return (0);
+    if (g_exit == 1)
+    {
+        ft_error("");
+        mlx_destroy_window (g_mlx_ptr, g_mlx_win);
+    }
+    
+    return (1);
 }
 
-void	ft_draw_player(int color, t_mapdata *map)
+void	ft_draw_player(t_mapdata *map)
 {
     RT = fmod(RT, 2*M_PI);
     if (RT < 0)
@@ -190,8 +220,7 @@ void	ft_draw_player(int color, t_mapdata *map)
             PX = PX + (WD * cos(RT) * 2) + (SD * cos(RT + 90*M_PI/180) * 2);
             PY = PY + (WD * sin(RT) * 2) + (SD * sin(RT + 90*M_PI/180) * 2);
         }
-    cast2drays(map);
-    g_img_data[((int)PY) * WH + ((int)PX)] = color;   
+    castrays(map);
 }
 
 void ft_check_stuff(int y, int x, t_mapdata *map)
@@ -215,18 +244,11 @@ void ft_check_stuff(int y, int x, t_mapdata *map)
 
 void		ft_drawmap(t_mapdata *map)
 {
-	int	bpp;
-	int	size_line;
-	int	endian;
 
 	g_loli = 0;
 	g_mlx_ptr = mlx_init();
 	g_mlx_win = mlx_new_window(g_mlx_ptr, WH, HT, "");
-	g_img_ptr = mlx_new_image(g_mlx_ptr, WH, HT);
-	g_img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
-	ft_drawall(map);
-    ft_draw_player(0xFFFFFF, map);
-	mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_img_ptr, 0, 0);
+    draw(map);
     mlx_hook(g_mlx_win, 2, 0, deal_key, map);
     mlx_hook(g_mlx_win, 3, 0, release_key, map);
     mlx_loop_hook(g_mlx_ptr, draw, map);
