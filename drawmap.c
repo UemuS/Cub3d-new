@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:35 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 05:54:41 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/10/16 23:50:33 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int    deal_key(int key, t_mapdata *map)
         WD = -1;
     if (key == 53)
         g_exit = 1;
-    return(1);
+    return(0);
 }
 int    release_key(int key, t_mapdata *map)
 {
@@ -147,7 +147,7 @@ int    release_key(int key, t_mapdata *map)
         SD = 0;
     if (key == 1)
         WD = 0;
-    return(1);
+    return(0);
 }
 
 void	ft_drawall(t_mapdata *map)
@@ -173,8 +173,19 @@ void	ft_drawall(t_mapdata *map)
 }
 void	drawground(t_mapdata *map)
 {
-	int i = HT/2;
+	int i = 0;
 	int	j;
+    
+    while (i < HT/2)
+	{
+		j = 0;
+		while (j < WH)
+		{
+			g_img_data[i * WH + j] = 0x7bd3f7;
+			j++;
+		}		
+		i++;
+	}
 	while (i < HT)
 	{
 		j = 0;
@@ -205,7 +216,7 @@ int     draw(t_mapdata *map)
         mlx_destroy_window (g_mlx_ptr, g_mlx_win);
     }
     
-    return (1);
+    return (0);
 }
 
 void	ft_draw_player(t_mapdata *map)
@@ -214,8 +225,8 @@ void	ft_draw_player(t_mapdata *map)
     if (RT < 0)
         RT += 2*M_PI;
     RT = RT + (TD * 0.05);
-    if (MAP2D[(int)(PY + (WD * sin(RT) * 2) )/ (32)][(int)(PX + (WD * cos(RT) * 2)) / (32)] != '1')
-        if (MAP2D[(int)(PY + (SD * sin(RT + 90*M_PI/180) * 2))/ (32)][(int)(PX + (SD * cos(RT + 90*M_PI/180) * 2)) / (32)] != '1')
+    if (MAP2D[(int)(PY + (WD * sin(RT) * 20) )/ (32)][(int)(PX + (WD * cos(RT) * 20)) / (32)] != '1')
+        if (MAP2D[(int)(PY + (SD * sin(RT + 90*M_PI/180) * 20))/ (32)][(int)(PX + (SD * cos(RT + 90*M_PI/180) * 20)) / (32)] != '1')
         {
             PX = PX + (WD * cos(RT) * 2) + (SD * cos(RT + 90*M_PI/180) * 2);
             PY = PY + (WD * sin(RT) * 2) + (SD * sin(RT + 90*M_PI/180) * 2);
@@ -244,7 +255,6 @@ void ft_check_stuff(int y, int x, t_mapdata *map)
 
 void		ft_drawmap(t_mapdata *map)
 {
-
 	g_loli = 0;
 	g_mlx_ptr = mlx_init();
 	g_mlx_win = mlx_new_window(g_mlx_ptr, WH, HT, "");

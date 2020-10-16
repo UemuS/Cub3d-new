@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:33 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 05:51:49 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/10/16 22:19:14 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ char			*ft_strdup(const char *s1);
 char			*ft_substr(char *dst, unsigned int start, size_t len);
 char			*ft_strchr(const char *s, int c);
 char			*ft_strjoin(char *s1, char *s2);
-char			**ft_split(char const *s, char c);
+char			**ft_split(char const *s, char c, t_mapdata *map);
 int				ft_check_fc(int i, int j, int k);
 void			ft_fill_fc(t_mapdata *map);
 void			ft_drawmap(t_mapdata *map);
@@ -160,7 +160,8 @@ void			*ft_calloc(size_t count, size_t size);
 void			ft_bzero(void *s, size_t n);
 int				ft_cw(char i);
 double			colmdist(t_mapdata *map, double rayangle);
-void	castrays(t_mapdata *map);
-void	drawray(t_mapdata *map, double angle);
+void			castrays(t_mapdata *map);
+void			drawray(t_mapdata *map, double angle);
+int			ft_longest_array(t_mapdata *map);
 
 #endif

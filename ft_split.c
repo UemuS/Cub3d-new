@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yihssan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:46 by yihssan           #+#    #+#             */
-/*   Updated: 2020/02/24 09:33:48 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/10/17 00:32:51 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			count_words(const char *str, char c)
 	}
 	return (count);
 }
-
+/*
 static int	ft_strlem(const char *s, char c, int d)
 {
 	int i;
@@ -49,7 +49,7 @@ static int	ft_strlem(const char *s, char c, int d)
 	}
 	return (i);
 }
-
+*/
 static char	**ft_frees(char **w, int j)
 {
 	while (--j)
@@ -58,7 +58,7 @@ static char	**ft_frees(char **w, int j)
 	return (0);
 }
 
-char		**ft_split(char const *s, char c)
+char		**ft_split(char const *s, char c, t_mapdata *map)
 {
 	char	**w;
 	int		i;
@@ -76,12 +76,33 @@ char		**ft_split(char const *s, char c)
 		k = 0;
 		while (s[i] == c)
 			i++;
-		if (!(w[j] = (char*)malloc(sizeof(char) * ft_strlem(s, c, i) + 1)))
+		if (!(w[j] = (char*)malloc(sizeof(char) * ft_longest_array(map))))
 			return (ft_frees(w, j));
 		while (s[i] != '\0' && s[i] != c)
 			w[j][k++] = s[i++];
+		while (k < g_case)
+			w[j][k++] = '1';
 		w[j++][k] = '\0';
 	}
 	w[j] = 0;
 	return (w);
+}
+
+int			ft_longest_array(t_mapdata *map)
+{
+	int	i;
+	int	j;
+	int length;
+
+	i = -1;
+	length = 0;
+	while (MAP0[++i] != 0)
+	{  
+		j = 0;
+		while (MAP0[i + j] != '\n')
+			j++;
+		if (length < i)
+			length = i;
+	}
+	return(length - 1);
 }

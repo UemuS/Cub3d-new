@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:27 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 05:54:28 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/10/16 23:32:37 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	ft_intro(int fd)
 	ft_read(fd, map);
 	if (MCHECK != 8)
 		ft_error("something is miss stated");
-	MAP2D = ft_split(MAP0, '\n');
+	MAP2D = ft_split(MAP0, '\n', map);
 	g_rows = count_words(MAP0, '\n');
 	ft_lstadd_front(&g_mylist, ft_lstnew(MAP0));
 	treatthatmap(map);
@@ -116,7 +116,7 @@ void	ft_intro(int fd)
 	int i = 0;
 	while (MAP2D[i])
 	{
-		printf("%s\n", MAP2D[i]);
+		printf("%s |\n", MAP2D[i]);
 		i++;
 	}
 	ft_drawmap(map);

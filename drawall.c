@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 22:10:22 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 05:49:00 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/10/16 17:57:09 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ double	wallheight(double rayangle, t_mapdata *map)
 int		colmcolor()
 {
 	if (g_rayup && g_hith)
-		return (0x484D6D);
+		return (0x555555);
 	if (g_rayleft && g_hitv)
-		return (0x2B193D);
+		return (0x222222);
 	if (g_raydown && g_hith)
-		return (0xF5F5F5);
+		return (0xcccccc);
 	if (g_rayright && g_hitv)
-		return (0xFF5A5F);
+		return (0x999999);
 	return (0);
 }
 

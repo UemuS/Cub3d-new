@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:38 by yihssan           #+#    #+#             */
-/*   Updated: 2020/03/11 22:41:06 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/10/16 23:35:37 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	treatthatmap(t_mapdata *map)
 			if (helptreatingthatmap(MAP2D[i][j]) == 0)
 				ft_error("something that shouldn't be in the map");
 		}
-		g_case = j;
+		g_case = ft_longest_array(map);
 	}
 	if (p == 0)
 		ft_error("there's no player cookie");
