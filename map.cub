@@ -1,4 +1,4 @@
-R 500000 5000000
+R 750 750
 NO ./path_to_the_north_texture
 SO ./path_to_the_south_texture
 WE ./path_to_the_west_texture

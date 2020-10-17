@@ -208,6 +208,7 @@ int     draw(t_mapdata *map)
     g_img_ptr = mlx_new_image(g_mlx_ptr, WH, HT);
 	g_img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
     g_xpm_picture = mlx_xpm_file_to_image(g_mlx_ptr, "picture.xpm", &g_texture_width, &g_texture_height);
+    printf("%d %d\n", g_texture_width, g_texture_height);
     g_texture_buffer = (int *)mlx_get_data_addr(g_xpm_picture, &useless, &useless, &useless);
     drawground(map);
     ft_drawall(map);
@@ -249,8 +250,8 @@ void ft_check_stuff(int y, int x, t_mapdata *map)
     if ((MAP2D[y][x] == 'N' || MAP2D[y][x] == 'E' || MAP2D[y][x] == 'S' || 
                 MAP2D[y][x] == 'W') && g_loli == 0)
     {
-        PX = x * (32) + 5;
-        PY = y * (32) + 5;
+        PX = x * (32) + 16;
+        PY = y * (32) + 16;
         g_loli = 1;
         if (MAP2D[y][x] == 'N')
             RT = (270*M_PI/180);
