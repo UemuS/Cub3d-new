@@ -89,16 +89,15 @@ void	ft_read(int fd, t_mapdata *map)
 
 void	ft_fill_fc(t_mapdata *map)
 {
-	char *s;
-	s = "0x";
-	FL = ft_strjoin(FL, s);
 	FL = ft_strjoin(FL, itoa_base(F[0], "0123456789abcdef"));
 	FL = ft_strjoin(FL, itoa_base(F[1], "0123456789abcdef"));
 	FL = ft_strjoin(FL, itoa_base(F[2], "0123456789abcdef"));
-	CL = ft_strjoin(CL, s);
-	CL = ft_strjoin(CL, itoa_base(F[0], "0123456789abcdef"));
-	CL = ft_strjoin(CL, itoa_base(F[1], "0123456789abcdef"));
-	CL = ft_strjoin(CL, itoa_base(F[2], "0123456789abcdef"));
+	CL = ft_strjoin(CL, itoa_base(C[0], "0123456789abcdef"));
+	CL = ft_strjoin(CL, itoa_base(C[1], "0123456789abcdef"));
+	CL = ft_strjoin(CL, itoa_base(C[2], "0123456789abcdef"));
+	g_FL = hex_to_dec(FL);
+	g_CL = hex_to_dec(CL);
+	printf("%d %d\n", g_FL, g_CL);
 }
 
 void	ft_matrix(t_mapdata *map, char *line)

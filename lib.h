@@ -81,6 +81,8 @@ typedef struct	s_lst
 # define I_X map->ix
 # define SD map->sd
 # define HH map->choice
+# define TILE_SIZE 64
+
 /*int 			ft_interhor(t_mapdata *map, int i, int j);
 int 			ft_interver(t_mapdata *map, int i, int j);*/
 void			ft_init(t_mapdata *map);
@@ -123,12 +125,19 @@ int				g_rayleft;
 int				g_rayup;
 int				g_exit;
 int				g_raydown;
+int				g_FL;
+int				g_CL;
 double			g_wallhx;
 double			g_wallhy;
 double			g_wallvx;
 double			g_wallvy;
 double			g_wallx;
 double			g_wally;
+void			*g_xpm_picture;
+int				*g_texture_buffer;
+int				g_color_buffer_texture;
+int				g_texture_width;
+int				g_texture_height;
 size_t			ft_strlen(const char *s);
 char			*ft_strdup(const char *s1);
 char			*ft_substr(char *dst, unsigned int start, size_t len);
@@ -162,6 +171,7 @@ int				ft_cw(char i);
 double			colmdist(t_mapdata *map, double rayangle);
 void			castrays(t_mapdata *map);
 void			drawray(t_mapdata *map, double angle);
-int			ft_longest_array(t_mapdata *map);
+int				ft_longest_array(t_mapdata *map);
+int 			hex_to_dec(char *hex);
 
 #endif

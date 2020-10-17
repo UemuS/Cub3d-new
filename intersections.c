@@ -35,7 +35,7 @@ int		iswall(double x, double y, t_mapdata *map)
 	int mapy = floor(y / (double)32);
 	int mapx = floor(x / (double)32);
 	if (mapx >= 0 && mapx < g_case && mapy >=0 && mapy < g_rows)
-		return ((MAP2D[mapy][mapx] == '1') || (MAP2D[mapy][mapx] == 'S'));
+		return ((MAP2D[mapy][mapx] == '1'));
 	return (0);
 }
 

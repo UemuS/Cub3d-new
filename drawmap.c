@@ -181,7 +181,7 @@ void	drawground(t_mapdata *map)
 		j = 0;
 		while (j < WH)
 		{
-			g_img_data[i * WH + j] = 0x7bd3f7;
+			g_img_data[i * WH + j] = g_CL;
 			j++;
 		}		
 		i++;
@@ -191,7 +191,7 @@ void	drawground(t_mapdata *map)
 		j = 0;
 		while (j < WH)
 		{
-			g_img_data[i * WH + j] = 0x986152;
+			g_img_data[i * WH + j] = g_FL;
 			j++;
 		}		
 		i++;
@@ -203,13 +203,17 @@ int     draw(t_mapdata *map)
     int	bpp;
 	int	size_line;
 	int	endian;
-    
+    int useless;
+
     g_img_ptr = mlx_new_image(g_mlx_ptr, WH, HT);
 	g_img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
+    g_xpm_picture = mlx_xpm_file_to_image(g_mlx_ptr, "picture.xpm", &g_texture_width, &g_texture_height);
+    g_texture_buffer = (int *)mlx_get_data_addr(g_xpm_picture, &useless, &useless, &useless);
     drawground(map);
     ft_drawall(map);
     ft_draw_player(map);
     mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_img_ptr, 0, 0);
+    mlx_destroy_image(g_mlx_ptr, g_img_ptr);
     if (g_exit == 1)
     {
         ft_error("");
@@ -225,11 +229,17 @@ void	ft_draw_player(t_mapdata *map)
     if (RT < 0)
         RT += 2*M_PI;
     RT = RT + (TD * 0.05);
-    if (MAP2D[(int)(PY + (WD * sin(RT) * 20) )/ (32)][(int)(PX + (WD * cos(RT) * 20)) / (32)] != '1')
-        if (MAP2D[(int)(PY + (SD * sin(RT + 90*M_PI/180) * 20))/ (32)][(int)(PX + (SD * cos(RT + 90*M_PI/180) * 20)) / (32)] != '1')
+    if (MAP2D[(int)(PY + (WD * sin(RT) * 8) )/ (32)][(int)(PX + (WD * cos(RT) * 8)) / (32)] != '1')
+        if (MAP2D[(int)(PY + (SD * sin(RT + 90*M_PI/180) * 8))/ (32)][(int)(PX + (SD * cos(RT + 90*M_PI/180) * 8)) / (32)] != '1')
         {
-            PX = PX + (WD * cos(RT) * 2) + (SD * cos(RT + 90*M_PI/180) * 2);
-            PY = PY + (WD * sin(RT) * 2) + (SD * sin(RT + 90*M_PI/180) * 2);
+            PX = PX + (WD * cos(RT) * 1) + (SD * cos(RT + 90*M_PI/180) * 1);
+            PY = PY + (WD * sin(RT) * 1) + (SD * sin(RT + 90*M_PI/180) * 1);
+        }
+    if (MAP2D[(int)(PY + (WD * sin(RT) * 8) )/ (32)][(int)(PX + (WD * cos(RT) * 8)) / (32)] != '1')
+        if (MAP2D[(int)(PY + (SD * sin(RT + 90*M_PI/180) * 8))/ (32)][(int)(PX + (SD * cos(RT + 90*M_PI/180) * 8)) / (32)] != '1')
+        {
+            PX = PX + (WD * cos(RT) * 1) + (SD * cos(RT + 90*M_PI/180) * 1);
+            PY = PY + (WD * sin(RT) * 1) + (SD * sin(RT + 90*M_PI/180) * 1);
         }
     castrays(map);
 }
@@ -239,8 +249,8 @@ void ft_check_stuff(int y, int x, t_mapdata *map)
     if ((MAP2D[y][x] == 'N' || MAP2D[y][x] == 'E' || MAP2D[y][x] == 'S' || 
                 MAP2D[y][x] == 'W') && g_loli == 0)
     {
-        PX = x * (32);
-        PY = y * (32);
+        PX = x * (32) + 5;
+        PY = y * (32) + 5;
         g_loli = 1;
         if (MAP2D[y][x] == 'N')
             RT = (270*M_PI/180);
@@ -255,6 +265,7 @@ void ft_check_stuff(int y, int x, t_mapdata *map)
 
 void		ft_drawmap(t_mapdata *map)
 {
+
 	g_loli = 0;
 	g_mlx_ptr = mlx_init();
 	g_mlx_win = mlx_new_window(g_mlx_ptr, WH, HT, "");
