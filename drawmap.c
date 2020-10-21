@@ -30,7 +30,7 @@
     g_verx = (ver > hor) ? g_horx : g_verx;
     int i = -1;
     int j = -1;
-    //double  AY = floor(PY / (32)) * (32);
+    //double  AY = floor(PY / (TILE_SIZE)) * (TILE_SIZE);
     //double  AX = PX + ((PY - AY)/tan(-RT));
     while (++i <= (g_verx) && ++j <= (g_very))
     {
@@ -51,11 +51,11 @@ int ft_interhor(t_mapdata *map, int i, int j)
     double  xa;
     double  ya;
 
-    AY = floor(PY / 32) * 32;
-    AY += (i == 1 ? 32 : 0);
+    AY = floor(PY / TILE_SIZE) * TILE_SIZE;
+    AY += (i == 1 ? TILE_SIZE : 0);
     AX = PX + (AY - PY) / tan(RT);
-    ystep = 32 * ((i) ? 1 : -1);
-    xstep = 32 / tan(RT);
+    ystep = TILE_SIZE * ((i) ? 1 : -1);
+    xstep = TILE_SIZE / tan(RT);
     xstep *= ((!j && xstep > 0) ? -1 : 1);  
     xstep *= (j && xstep < 0) ? -1 : 1;
     xa = AX;
@@ -63,7 +63,7 @@ int ft_interhor(t_mapdata *map, int i, int j)
     ya -= (!i) ? 1 : -1;
     while (xa >= 0 && xa <= WH && ya >= 0 && ya <= HT)
     {
-        if (MAP2D[(int)(ya / 32)][(int)(xa / 32)] == '1')
+        if (MAP2D[(int)(ya / TILE_SIZE)][(int)(xa / TILE_SIZE)] == '1')
         {
             g_horx = xa;
             g_hory = ya;
@@ -87,12 +87,12 @@ int ft_interver(t_mapdata *map, int i, int j)
     double  xa;
     double  ya;
 
-    AX = floor(PX / 32) * 32;
-    AX += (j == 1 ? 32 : 0);
+    AX = floor(PX / TILE_SIZE) * TILE_SIZE;
+    AX += (j == 1 ? TILE_SIZE : 0);
     AY = PY + (AX - PX) * tan(RT);
-    xstep = 32;
+    xstep = TILE_SIZE;
     xstep *= (j) ? 1 : -1;
-    ystep = 32 * tan(RT);
+    ystep = TILE_SIZE * tan(RT);
     ystep *= ((!i && ystep > 0) ? -1 : 1);
     ystep *= (i && ystep < 0) ? -1 : 1;
     xa = AX;
@@ -100,7 +100,7 @@ int ft_interver(t_mapdata *map, int i, int j)
     xa -= (!j) ? 1 : 0;
     while (xa >= 0 && xa <= g_rows && ya >= 0 && ya <= g_case)
     {
-        if (MAP2D[((int)ya / 32)][((int)xa / 32)] == '1')
+        if (MAP2D[((int)ya / TILE_SIZE)][((int)xa / TILE_SIZE)] == '1')
         {
             g_verx = xa;
             g_very = ya;
@@ -171,49 +171,27 @@ void	ft_drawall(t_mapdata *map)
 		}
 	}
 }
-void	drawground(t_mapdata *map)
-{
-	int i = 0;
-	int	j;
-    
-    while (i < HT/2)
-	{
-		j = 0;
-		while (j < WH)
-		{
-			g_img_data[i * WH + j] = g_CL;
-			j++;
-		}		
-		i++;
-	}
-	while (i < HT)
-	{
-		j = 0;
-		while (j < WH)
-		{
-			g_img_data[i * WH + j] = g_FL;
-			j++;
-		}		
-		i++;
-	}
-}
 
 int     draw(t_mapdata *map)
 {
     int	bpp;
 	int	size_line;
 	int	endian;
-    int useless;
 
     g_img_ptr = mlx_new_image(g_mlx_ptr, WH, HT);
 	g_img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
-    g_xpm_picture = mlx_xpm_file_to_image(g_mlx_ptr, "picture.xpm", &g_texture_width, &g_texture_height);
-    printf("%d %d\n", g_texture_width, g_texture_height);
-    g_texture_buffer = (int *)mlx_get_data_addr(g_xpm_picture, &useless, &useless, &useless);
-    drawground(map);
+    g_xpm_NO = mlx_xpm_file_to_image(g_mlx_ptr, NO, &g_texture_width, &g_texture_height);
+    g_xpm_SO = mlx_xpm_file_to_image(g_mlx_ptr, SO, &g_texture_width, &g_texture_height);
+    g_xpm_EA = mlx_xpm_file_to_image(g_mlx_ptr, EA, &g_texture_width, &g_texture_height);
+    g_xpm_WE = mlx_xpm_file_to_image(g_mlx_ptr, WE, &g_texture_width, &g_texture_height);
+    g_texture_buffer_NO = (int *)mlx_get_data_addr(g_xpm_NO, &bpp, &size_line, &endian);
+    g_texture_buffer_SO = (int *)mlx_get_data_addr(g_xpm_SO, &bpp, &size_line, &endian);
+    g_texture_buffer_EA = (int *)mlx_get_data_addr(g_xpm_EA, &bpp, &size_line, &endian);
+    g_texture_buffer_WE = (int *)mlx_get_data_addr(g_xpm_WE, &bpp, &size_line, &endian);
     ft_drawall(map);
     ft_draw_player(map);
     mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_img_ptr, 0, 0);
+    //mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_xpm_picture, 0, 0);
     mlx_destroy_image(g_mlx_ptr, g_img_ptr);
     if (g_exit == 1)
     {
@@ -229,18 +207,12 @@ void	ft_draw_player(t_mapdata *map)
     RT = fmod(RT, 2*M_PI);
     if (RT < 0)
         RT += 2*M_PI;
-    RT = RT + (TD * 0.05);
-    if (MAP2D[(int)(PY + (WD * sin(RT) * 8) )/ (32)][(int)(PX + (WD * cos(RT) * 8)) / (32)] != '1')
-        if (MAP2D[(int)(PY + (SD * sin(RT + 90*M_PI/180) * 8))/ (32)][(int)(PX + (SD * cos(RT + 90*M_PI/180) * 8)) / (32)] != '1')
+    RT = RT + (TD * 0.02);
+    if (MAP2D[(int)(PY + (WD * sin(RT) * 8) )/ (TILE_SIZE)][(int)(PX + (WD * cos(RT) * 8)) / (TILE_SIZE)] != '1')
+        if (MAP2D[(int)(PY + (SD * sin(RT + 90*M_PI/180) * 8))/ (TILE_SIZE)][(int)(PX + (SD * cos(RT + 90*M_PI/180) * 8)) / (TILE_SIZE)] != '1')
         {
-            PX = PX + (WD * cos(RT) * 1) + (SD * cos(RT + 90*M_PI/180) * 1);
-            PY = PY + (WD * sin(RT) * 1) + (SD * sin(RT + 90*M_PI/180) * 1);
-        }
-    if (MAP2D[(int)(PY + (WD * sin(RT) * 8) )/ (32)][(int)(PX + (WD * cos(RT) * 8)) / (32)] != '1')
-        if (MAP2D[(int)(PY + (SD * sin(RT + 90*M_PI/180) * 8))/ (32)][(int)(PX + (SD * cos(RT + 90*M_PI/180) * 8)) / (32)] != '1')
-        {
-            PX = PX + (WD * cos(RT) * 1) + (SD * cos(RT + 90*M_PI/180) * 1);
-            PY = PY + (WD * sin(RT) * 1) + (SD * sin(RT + 90*M_PI/180) * 1);
+            PX = PX + (WD * cos(RT) * 2) + (SD * cos(RT + 90*M_PI/180) * 1);
+            PY = PY + (WD * sin(RT) * 2) + (SD * sin(RT + 90*M_PI/180) * 1);
         }
     castrays(map);
 }
@@ -250,8 +222,8 @@ void ft_check_stuff(int y, int x, t_mapdata *map)
     if ((MAP2D[y][x] == 'N' || MAP2D[y][x] == 'E' || MAP2D[y][x] == 'S' || 
                 MAP2D[y][x] == 'W') && g_loli == 0)
     {
-        PX = x * (32) + 16;
-        PY = y * (32) + 16;
+        PX = x * (TILE_SIZE) + 16;
+        PY = y * (TILE_SIZE) + 16;
         g_loli = 1;
         if (MAP2D[y][x] == 'N')
             RT = (270*M_PI/180);

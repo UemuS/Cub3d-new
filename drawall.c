@@ -21,46 +21,62 @@ double	wallheight(double rayangle, t_mapdata *map)
 	g_hit_side = (g_hith) ? 1 : 0;
 	dist = colmdist(map, rayangle) * cos(rayangle - RT);
 	prjplane = (WH / 2) / tan(M_PI / 6);
-	wallh = (32 / dist) * prjplane;
+	wallh = (TILE_SIZE / dist) * prjplane;
 	return (wallh);
 }
 
-int		colmcolor()
+int		colmcolor(int textureOffsetX, int i, int wall, int height)
 {
+	int		textureOffsetY;
+	int		distanceFromTop;
+
+	distanceFromTop = i + (wall / 2) - (height / 2);
+	textureOffsetY = distanceFromTop * ((float)TILE_SIZE / wall);
 	if (g_rayup && g_hith)
-		return (0x555555);
+		return (g_texture_buffer_NO[textureOffsetX + (textureOffsetY * TILE_SIZE)]);
 	if (g_rayleft && g_hitv)
-		return (0x222222);
+		return (g_texture_buffer_EA[textureOffsetX + (textureOffsetY * TILE_SIZE)]);
 	if (g_raydown && g_hith)
-		return (0xcccccc);
+		return (g_texture_buffer_SO[textureOffsetX + (textureOffsetY * TILE_SIZE)]);
 	if (g_rayright && g_hitv)
-		return (0x999999);
+		return (g_texture_buffer_WE[textureOffsetX + (textureOffsetY * TILE_SIZE)]);
 	return (0);
 }
 
 void	drawcolm(int col, double wallh, t_mapdata *map)
 {
 	int i;
+	int	j;
+	int k;
 	int wall;
+	int	textX;
 
+	k = -1;
 	wall = (int)wallh;
-	i = (HT / 2) - (wall / 2);
-	while (i < (HT / 2) + (wall / 2))
+	i = ((HT / 2) - (wall / 2)) < 0 ? 0 : ((HT / 2) - (wall / 2));
+	j = ((HT / 2) + (wall / 2)) > HT ? HT : ((HT / 2) + (wall / 2));
+	if (g_hith == 1)
+		textX = (int)g_wallx % TILE_SIZE;
+	else
+		textX = (int)g_wally % TILE_SIZE;
+	while (k++ < i)
+			g_img_data[k * WH + col] = g_CL;
+	while (i < j)
 	{
 		if (i >=0 && i < HT && col >= 0 && col < WH)
-			g_img_data[i * WH + col] = colmcolor();
+			g_img_data[i * WH + col] = colmcolor(textX, i, wall, HT);
 		i++;
 	}
+	while (++j < HT)
+			g_img_data[j * WH + col] = g_FL;
 }
 
 void	castrays(t_mapdata *map)
 {
-	int	col;
-	double rayangle;
-	double wallh;
-	double an;
-	
-	
+	int		col;
+	double	rayangle;
+	double	wallh;
+	double	an;;
 	rayangle = RT - (M_PI / 6);
 	an = rayangle;
 	col = 0;
@@ -70,5 +86,10 @@ void	castrays(t_mapdata *map)
 		drawcolm(col, wallh, map);
 		rayangle += (M_PI / 3) / WH;
 		col++;
+	}
+	if (g_checksave == 0)
+	{
+		g_checksave = 1;
+		save_bmp(map);
 	}
 }

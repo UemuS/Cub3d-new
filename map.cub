@@ -1,11 +1,11 @@
-R 750 750
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+R 1000 1000
+NO ./1375NO.xpm
+SO ./1375SO.xpm
+WE ./1375WE.xpm
+EA ./1375EA.xpm
 S ./path_to_the_sprite_texture
-F 240,200,50
-C 102,255,255
+F 115,115,115
+C 37,44,88
 
 111111111111111111111111111111111
    111111000000000110000000000111

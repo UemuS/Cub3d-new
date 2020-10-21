@@ -32,8 +32,8 @@ double	normalangle(double *rayangle)
 
 int		iswall(double x, double y, t_mapdata *map)
 {
-	int mapy = floor(y / (double)32);
-	int mapx = floor(x / (double)32);
+	int mapy = floor(y / (double)TILE_SIZE);
+	int mapx = floor(x / (double)TILE_SIZE);
 	if (mapx >= 0 && mapx < g_case && mapy >=0 && mapy < g_rows)
 		return ((MAP2D[mapy][mapx] == '1'));
 	return (0);
@@ -61,10 +61,10 @@ double	hinter(t_mapdata *map, double rayangle)
 	double ystep;
 	int h = 0;
 	
-	ay = floor(PY / 32) * 32 + (32 * g_raydown);
+	ay = floor(PY / TILE_SIZE) * TILE_SIZE + (TILE_SIZE * g_raydown);
 	ax = PX + ((ay - PY) / tan(rayangle));
-	ystep = 32 * (g_rayup ? -1 : 1);
-	xstep = 32 / tan(rayangle);
+	ystep = TILE_SIZE * (g_rayup ? -1 : 1);
+	xstep = TILE_SIZE / tan(rayangle);
 	xstep *= (g_rayleft && (xstep > 0)) ? -1 : 1;
 	xstep *= (g_rayright && (xstep < 0)) ? -1 : 1;
 	if (g_rayup)
@@ -87,10 +87,10 @@ double	vinter(t_mapdata *map, double rayangle)
 	double ystep;
 	int hu = 0;
 
-	ax = floor(PX / 32) * 32 + (32 * g_rayright);
+	ax = floor(PX / TILE_SIZE) * TILE_SIZE + (TILE_SIZE * g_rayright);
 	ay = PY + ((ax - PX) * tan(rayangle));
-	xstep = 32 * (g_rayleft ? -1 : 1);
-	ystep = 32 * tan(rayangle);
+	xstep = TILE_SIZE * (g_rayleft ? -1 : 1);
+	ystep = TILE_SIZE * tan(rayangle);
 	ystep *= (g_rayup && (ystep > 0)) ? -1 : 1;
 	ystep *= (g_raydown && (ystep < 0)) ? -1 : 1;
 	if (g_rayleft)

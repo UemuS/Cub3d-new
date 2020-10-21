@@ -58,6 +58,25 @@ typedef struct	s_lst
 	struct s_lst	*next;
 }				t_list;
 
+typedef struct		s_bmp_file
+{
+	char			byte_type[2];
+	unsigned int	byte_size;
+	unsigned int	byte_reserved;
+	unsigned int	byte_offset;
+	unsigned		header_size;
+	int				image_width;
+	int				image_height;
+	unsigned short	color_planes;
+	unsigned short	bits_per_pixel;
+	unsigned int	compression;
+	unsigned int	image_size;
+	int				bits_xpels_per_meter;
+	int				bits_ypels_per_meter;
+	unsigned int	total_colors;
+	unsigned int	important_colors;
+}					t_bmp_file;
+
 # define FL map->fl
 # define PY map->playery
 # define PX map-> playerx
@@ -133,8 +152,14 @@ double			g_wallvx;
 double			g_wallvy;
 double			g_wallx;
 double			g_wally;
-void			*g_xpm_picture;
-int				*g_texture_buffer;
+void			*g_xpm_NO;
+void			*g_xpm_SO;
+void			*g_xpm_EA;
+void			*g_xpm_WE;
+int				*g_texture_buffer_NO;
+int				*g_texture_buffer_SO;
+int				*g_texture_buffer_EA;
+int				*g_texture_buffer_WE;
 int				g_color_buffer_texture;
 int				g_texture_width;
 int				g_texture_height;
@@ -162,6 +187,10 @@ int				g_loli;
 int				g_hith;
 int				g_hitv;
 int				g_hit_side;
+int				g_textureOffsetY;
+int				g_textureOffsetX;
+int				g_distancefromtop;
+int				g_checksave;
 int     		draw(t_mapdata *map);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_strtrim(char *s1, const char *set);
@@ -173,5 +202,6 @@ void			castrays(t_mapdata *map);
 void			drawray(t_mapdata *map, double angle);
 int				ft_longest_array(t_mapdata *map);
 int 			hex_to_dec(char *hex);
+void			save_bmp(t_mapdata *map);
 
 #endif

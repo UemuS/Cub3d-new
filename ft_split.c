@@ -36,20 +36,7 @@ int			count_words(const char *str, char c)
 	}
 	return (count);
 }
-/*
-static int	ft_strlem(const char *s, char c, int d)
-{
-	int i;
 
-	i = 0;
-	while (s[d] != c && s[d] != '\0')
-	{
-		i++;
-		d++;
-	}
-	return (i);
-}
-*/
 static char	**ft_frees(char **w, int j)
 {
 	while (--j)
