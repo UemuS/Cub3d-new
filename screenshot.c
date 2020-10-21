@@ -12,7 +12,7 @@ static	int		create_file(char *file_name)
 	return (fd);
 }
 
-static void		create_header(t_bmp_file *info_bmp_file, t_mapdata *map)
+static void		head_make(t_bmp_file *info_bmp_file, t_mapdata *map)
 {
 	info_bmp_file->byte_type[0] = 0x42;
 	info_bmp_file->byte_type[1] = 0x4D;
@@ -32,7 +32,7 @@ static void		create_header(t_bmp_file *info_bmp_file, t_mapdata *map)
 	info_bmp_file->important_colors = 0;
 }
 
-static void		write_header(int fd, t_bmp_file info_bmp_file)
+static void		head_write(int fd, t_bmp_file info_bmp_file)
 {
 	int			r;
 
@@ -55,7 +55,7 @@ static void		write_header(int fd, t_bmp_file info_bmp_file)
 	(void)r;
 }
 
-static void		write_file(int fd, int imagesize)
+static void		file_write(int fd, int imagesize)
 {
 	char		*pixel_array;
 	int			i;
@@ -85,9 +85,9 @@ void			save_bmp(t_mapdata *map)
 
 	ft_bzero(&info_bmp_file, sizeof(t_bmp_file));
 	fd = create_file("screenshot.bmp");
-	create_header(&info_bmp_file, map);
-	write_header(fd, info_bmp_file);
-	write_file(fd, info_bmp_file.image_size);
+	head_make(&info_bmp_file, map);
+	head_write(fd, info_bmp_file);
+	file_write(fd, info_bmp_file.image_size);
 	close(fd);
 	(void)info_bmp_file;
 }
