@@ -58,6 +58,7 @@ typedef struct	s_lst
 	struct s_lst	*next;
 }				t_list;
 
+
 typedef struct		s_bmp_file
 {
 	char			byte_type[2];
@@ -101,7 +102,6 @@ typedef struct		s_bmp_file
 # define SD map->sd
 # define HH map->choice
 # define TILE_SIZE 64
-
 /*int 			ft_interhor(t_mapdata *map, int i, int j);
 int 			ft_interver(t_mapdata *map, int i, int j);*/
 void			ft_init(t_mapdata *map);
@@ -156,13 +156,19 @@ void			*g_xpm_NO;
 void			*g_xpm_SO;
 void			*g_xpm_EA;
 void			*g_xpm_WE;
+void			*g_xpm_SP;
+//void			*g_xpm_HUD;
 int				*g_texture_buffer_NO;
 int				*g_texture_buffer_SO;
 int				*g_texture_buffer_EA;
 int				*g_texture_buffer_WE;
+int				*g_texture_buffer_SP;
+//int				*g_texture_buffer_HUD;
 int				g_color_buffer_texture;
-int				g_texture_width;
-int				g_texture_height;
+int				g_txt_wh;
+int				g_txt_ht;
+//int				g_txt_hudx;
+//int				g_txt_hudy;
 size_t			ft_strlen(const char *s);
 char			*ft_strdup(const char *s1);
 char			*ft_substr(char *dst, unsigned int start, size_t len);
@@ -188,7 +194,7 @@ int				g_hith;
 int				g_hitv;
 int				g_hit_side;
 int				g_textureOffsetY;
-int				g_textureOffsetX;
+int				g_textX;
 int				g_distancefromtop;
 int				g_checksave;
 int     		draw(t_mapdata *map);
@@ -203,5 +209,9 @@ void			drawray(t_mapdata *map, double angle);
 int				ft_longest_array(t_mapdata *map);
 int 			hex_to_dec(char *hex);
 void			save_bmp(t_mapdata *map);
+double			colmdistsprite(t_mapdata *map, double rayangle);
+void			castrayssp(t_mapdata *map);
+int    			lifebar(t_mapdata *map);
+double		ft_fmod(double a, double b);
 
 #endif

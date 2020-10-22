@@ -83,6 +83,7 @@ void			save_bmp(t_mapdata *map)
 	t_bmp_file	info_bmp_file;
 	int			fd;
 
+	printf("|%d %d", g_case, g_rows);
 	ft_bzero(&info_bmp_file, sizeof(t_bmp_file));
 	fd = create_file("screenshot.bmp");
 	head_make(&info_bmp_file, map);

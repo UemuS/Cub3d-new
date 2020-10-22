@@ -25,21 +25,21 @@ double	wallheight(double rayangle, t_mapdata *map)
 	return (wallh);
 }
 
-int		colmcolor(int textureOffsetX, int i, int wall, int height)
+int		colmcolor(int textX, int i, int wall, int height)
 {
 	int		textureOffsetY;
 	int		distanceFromTop;
 
 	distanceFromTop = i + (wall / 2) - (height / 2);
-	textureOffsetY = distanceFromTop * ((float)TILE_SIZE / wall);
+	textureOffsetY = distanceFromTop * ((float)g_txt_ht / wall);
 	if (g_rayup && g_hith)
-		return (g_texture_buffer_NO[textureOffsetX + (textureOffsetY * TILE_SIZE)]);
+		return (g_texture_buffer_NO[textX + (textureOffsetY * g_txt_wh)]);
 	if (g_rayleft && g_hitv)
-		return (g_texture_buffer_EA[textureOffsetX + (textureOffsetY * TILE_SIZE)]);
+		return (g_texture_buffer_EA[textX + (textureOffsetY * g_txt_wh)]);
 	if (g_raydown && g_hith)
-		return (g_texture_buffer_SO[textureOffsetX + (textureOffsetY * TILE_SIZE)]);
+		return (g_texture_buffer_SO[textX + (textureOffsetY * g_txt_wh)]);
 	if (g_rayright && g_hitv)
-		return (g_texture_buffer_WE[textureOffsetX + (textureOffsetY * TILE_SIZE)]);
+		return (g_texture_buffer_WE[textX + (textureOffsetY * g_txt_wh)]);
 	return (0);
 }
 
@@ -56,12 +56,12 @@ void	drawcolm(int col, double wallh, t_mapdata *map)
 	i = ((HT / 2) - (wall / 2)) < 0 ? 0 : ((HT / 2) - (wall / 2));
 	j = ((HT / 2) + (wall / 2)) > HT ? HT : ((HT / 2) + (wall / 2));
 	if (g_hith == 1)
-		textX = (int)g_wallx % TILE_SIZE;
+		textX = (ft_fmod(g_wallx, TILE_SIZE) * (g_txt_wh / TILE_SIZE));
 	else
-		textX = (int)g_wally % TILE_SIZE;
+		textX = (ft_fmod(g_wally, TILE_SIZE) * (g_txt_ht / TILE_SIZE));
 	while (k++ < i)
 			g_img_data[k * WH + col] = g_CL;
-	while (i < j)
+	while (i < j && i < HT)
 	{
 		if (i >=0 && i < HT && col >= 0 && col < WH)
 			g_img_data[i * WH + col] = colmcolor(textX, i, wall, HT);
@@ -76,9 +76,7 @@ void	castrays(t_mapdata *map)
 	int		col;
 	double	rayangle;
 	double	wallh;
-	double	an;;
 	rayangle = RT - (M_PI / 6);
-	an = rayangle;
 	col = 0;
 	while (col < WH)
 	{

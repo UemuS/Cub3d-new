@@ -88,8 +88,8 @@ int			ft_longest_array(t_mapdata *map)
 		j = 0;
 		while (MAP0[i + j] != '\n')
 			j++;
-		if (length < i)
-			length = i;
+		if (length < j)
+			length = j;
 	}
-	return(length - 1);
+	return(length);
 }

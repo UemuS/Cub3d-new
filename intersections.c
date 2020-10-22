@@ -41,16 +41,17 @@ int		iswall(double x, double y, t_mapdata *map)
 
 void	rayfacing(double rayangle)
 {
-	
 	g_raydown = ((rayangle > 0) && (rayangle < M_PI));
 	g_rayup = !g_raydown;
 	g_rayright = ((rayangle < M_PI_2) || (rayangle > (1.5 * M_PI)));
 	g_rayleft = !g_rayright;
 }
 
-int		inwin(double x, double y, t_mapdata *map)
+int		inwin(double x, double y)
 {
-	return (((x >= 0) && (x <= WH)) || ((y >= 0) && (y <= HT)));
+	float H = g_case * TILE_SIZE;
+	float K = g_rows * TILE_SIZE;
+	return (((x >= 0) && (x <= H)) && ((y >= 0) && (y <= K)));
 }
 
 double	hinter(t_mapdata *map, double rayangle)
@@ -61,7 +62,7 @@ double	hinter(t_mapdata *map, double rayangle)
 	double ystep;
 	int h = 0;
 	
-	ay = floor(PY / TILE_SIZE) * TILE_SIZE + (TILE_SIZE * g_raydown);
+	ay = floor(PY / TILE_SIZE) * TILE_SIZE + (g_raydown ? TILE_SIZE : 0.001);
 	ax = PX + ((ay - PY) / tan(rayangle));
 	ystep = TILE_SIZE * (g_rayup ? -1 : 1);
 	xstep = TILE_SIZE / tan(rayangle);
@@ -69,13 +70,20 @@ double	hinter(t_mapdata *map, double rayangle)
 	xstep *= (g_rayright && (xstep < 0)) ? -1 : 1;
 	if (g_rayup)
 		h++;
-	while (inwin(ax, ay - h, map) && !iswall(ax, ay - h, map))
+	while (inwin(ax, ay))
 	{
-		ax += xstep;
-		ay += ystep;
+		if (iswall(ax, ay - h, map))
+		{
+			g_wallhx = ax;
+			g_wallhy = ay;
+			break;
+		}
+		else
+		{
+			ax += xstep;
+			ay += ystep;			
+		}
 	}
-	g_wallhx = ax;
-	g_wallhy = ay;
 	return (sqrtf((ay - PY) * (ay - PY) + (ax - PX) * (ax - PX)));
 }
 
@@ -87,7 +95,7 @@ double	vinter(t_mapdata *map, double rayangle)
 	double ystep;
 	int hu = 0;
 
-	ax = floor(PX / TILE_SIZE) * TILE_SIZE + (TILE_SIZE * g_rayright);
+	ax = floor(PX / TILE_SIZE) * TILE_SIZE + (g_rayright ? TILE_SIZE : 0.001);
 	ay = PY + ((ax - PX) * tan(rayangle));
 	xstep = TILE_SIZE * (g_rayleft ? -1 : 1);
 	ystep = TILE_SIZE * tan(rayangle);
@@ -95,13 +103,20 @@ double	vinter(t_mapdata *map, double rayangle)
 	ystep *= (g_raydown && (ystep < 0)) ? -1 : 1;
 	if (g_rayleft)
 		hu++;
-	while (inwin(ax - hu, ay, map) && !iswall(ax - hu, ay, map))
+	while (inwin(ax, ay))
 	{
-		ax += xstep;
-		ay += ystep;
+		if (iswall(ax - hu, ay, map))
+		{
+			g_wallvx = ax;
+			g_wallvy = ay;
+			break;
+		}
+		else
+		{
+			ax += xstep;
+			ay += ystep;
+		}
 	}
-	g_wallvx = ax;
-	g_wallvy = ay;
 	return (sqrtf((ay - PY) * (ay - PY) + (ax - PX) * (ax - PX)));
 }
 

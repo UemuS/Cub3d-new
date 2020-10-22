@@ -180,18 +180,20 @@ int     draw(t_mapdata *map)
 
     g_img_ptr = mlx_new_image(g_mlx_ptr, WH, HT);
 	g_img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
-    g_xpm_NO = mlx_xpm_file_to_image(g_mlx_ptr, NO, &g_texture_width, &g_texture_height);
-    g_xpm_SO = mlx_xpm_file_to_image(g_mlx_ptr, SO, &g_texture_width, &g_texture_height);
-    g_xpm_EA = mlx_xpm_file_to_image(g_mlx_ptr, EA, &g_texture_width, &g_texture_height);
-    g_xpm_WE = mlx_xpm_file_to_image(g_mlx_ptr, WE, &g_texture_width, &g_texture_height);
+    g_xpm_NO = mlx_xpm_file_to_image(g_mlx_ptr, NO, &g_txt_wh, &g_txt_ht);
+    g_xpm_SO = mlx_xpm_file_to_image(g_mlx_ptr, SO, &g_txt_wh, &g_txt_ht);
+    g_xpm_EA = mlx_xpm_file_to_image(g_mlx_ptr, EA, &g_txt_wh, &g_txt_ht);
+    g_xpm_WE = mlx_xpm_file_to_image(g_mlx_ptr, WE, &g_txt_wh, &g_txt_ht);
+    g_xpm_SP = mlx_xpm_file_to_image(g_mlx_ptr, S, &g_txt_wh, &g_txt_ht);
     g_texture_buffer_NO = (int *)mlx_get_data_addr(g_xpm_NO, &bpp, &size_line, &endian);
     g_texture_buffer_SO = (int *)mlx_get_data_addr(g_xpm_SO, &bpp, &size_line, &endian);
     g_texture_buffer_EA = (int *)mlx_get_data_addr(g_xpm_EA, &bpp, &size_line, &endian);
     g_texture_buffer_WE = (int *)mlx_get_data_addr(g_xpm_WE, &bpp, &size_line, &endian);
+    g_texture_buffer_SP = (int *)mlx_get_data_addr(g_xpm_SP, &bpp, &size_line, &endian);
     ft_drawall(map);
     ft_draw_player(map);
     mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_img_ptr, 0, 0);
-    //mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_xpm_picture, 0, 0);
+    //mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_xpm_HUD, 0, (HT *1 / 100));
     mlx_destroy_image(g_mlx_ptr, g_img_ptr);
     if (g_exit == 1)
     {
@@ -215,6 +217,7 @@ void	ft_draw_player(t_mapdata *map)
             PY = PY + (WD * sin(RT) * 2) + (SD * sin(RT + 90*M_PI/180) * 1);
         }
     castrays(map);
+   // lifebar(map);
 }
 
 void ft_check_stuff(int y, int x, t_mapdata *map)
