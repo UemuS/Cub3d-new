@@ -131,6 +131,10 @@ int    deal_key(int key, t_mapdata *map)
         WD = -1;
     if (key == 53)
         g_exit = 1;
+    if (key == 126)
+        JP = 1;
+    if (key == 125)
+        JP = -1;
     return(0);
 }
 int    release_key(int key, t_mapdata *map)
@@ -147,6 +151,10 @@ int    release_key(int key, t_mapdata *map)
         SD = 0;
     if (key == 1)
         WD = 0;
+    if (key == 126)
+        JP = 0;
+    if (key == 125)
+        JP = 0;
     return(0);
 }
 
@@ -180,16 +188,16 @@ int     draw(t_mapdata *map)
 
     g_img_ptr = mlx_new_image(g_mlx_ptr, WH, HT);
 	g_img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
-    g_xpm_NO = mlx_xpm_file_to_image(g_mlx_ptr, NO, &g_txt_wh, &g_txt_ht);
-    g_xpm_SO = mlx_xpm_file_to_image(g_mlx_ptr, SO, &g_txt_wh, &g_txt_ht);
-    g_xpm_EA = mlx_xpm_file_to_image(g_mlx_ptr, EA, &g_txt_wh, &g_txt_ht);
-    g_xpm_WE = mlx_xpm_file_to_image(g_mlx_ptr, WE, &g_txt_wh, &g_txt_ht);
-    g_xpm_SP = mlx_xpm_file_to_image(g_mlx_ptr, S, &g_txt_wh, &g_txt_ht);
-    g_texture_buffer_NO = (int *)mlx_get_data_addr(g_xpm_NO, &bpp, &size_line, &endian);
-    g_texture_buffer_SO = (int *)mlx_get_data_addr(g_xpm_SO, &bpp, &size_line, &endian);
-    g_texture_buffer_EA = (int *)mlx_get_data_addr(g_xpm_EA, &bpp, &size_line, &endian);
-    g_texture_buffer_WE = (int *)mlx_get_data_addr(g_xpm_WE, &bpp, &size_line, &endian);
-    g_texture_buffer_SP = (int *)mlx_get_data_addr(g_xpm_SP, &bpp, &size_line, &endian);
+    XPM_NO = mlx_xpm_file_to_image(g_mlx_ptr, NO, &TXT_WH_NO, &TXT_HT_NO);
+    XPM_SO = mlx_xpm_file_to_image(g_mlx_ptr, SO, &TXT_WH_SO, &TXT_HT_SO);
+    XPM_EA = mlx_xpm_file_to_image(g_mlx_ptr, EA, &TXT_WH_EA, &TXT_HT_EA);
+    XPM_WE = mlx_xpm_file_to_image(g_mlx_ptr, WE, &TXT_WH_WE, &TXT_HT_WE);
+    XPM_FL = mlx_xpm_file_to_image(g_mlx_ptr, "floor.xpm", &TXT_FLW, &TXT_FLH);
+    TXT_BUF_NO = (int *)mlx_get_data_addr(XPM_NO, &bpp, &size_line, &endian);
+    TXT_BUF_SO = (int *)mlx_get_data_addr(XPM_SO, &bpp, &size_line, &endian);
+    TXT_BUF_EA = (int *)mlx_get_data_addr(XPM_EA, &bpp, &size_line, &endian);
+    TXT_BUF_WE = (int *)mlx_get_data_addr(XPM_WE, &bpp, &size_line, &endian);
+    TXT_BUF_FL = (int *)mlx_get_data_addr(XPM_FL, &bpp, &size_line, &endian);
     ft_drawall(map);
     ft_draw_player(map);
     mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_img_ptr, 0, 0);
@@ -213,9 +221,19 @@ void	ft_draw_player(t_mapdata *map)
     if (MAP2D[(int)(PY + (WD * sin(RT) * 8) )/ (TILE_SIZE)][(int)(PX + (WD * cos(RT) * 8)) / (TILE_SIZE)] != '1')
         if (MAP2D[(int)(PY + (SD * sin(RT + 90*M_PI/180) * 8))/ (TILE_SIZE)][(int)(PX + (SD * cos(RT + 90*M_PI/180) * 8)) / (TILE_SIZE)] != '1')
         {
-            PX = PX + (WD * cos(RT) * 2) + (SD * cos(RT + 90*M_PI/180) * 1);
-            PY = PY + (WD * sin(RT) * 2) + (SD * sin(RT + 90*M_PI/180) * 1);
+            PX = PX + (WD * cos(RT) * 4) + (SD * cos(RT + 90*M_PI/180) * 2);
+            PY = PY + (WD * sin(RT) * 4) + (SD * sin(RT + 90*M_PI/180) * 2);
         }
+    if (JP == 1)
+    {
+        if ( JPINCR < 200)
+            JPINCR += 10;
+    }
+    else if (JP == -1)
+    {
+        if ( JPINCR > -200)
+            JPINCR -= 10;
+    }
     castrays(map);
    // lifebar(map);
 }

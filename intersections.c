@@ -74,8 +74,8 @@ double	hinter(t_mapdata *map, double rayangle)
 	{
 		if (iswall(ax, ay - h, map))
 		{
-			g_wallhx = ax;
-			g_wallhy = ay;
+			WALLHX = ax;
+			WALLHY = ay;
 			break;
 		}
 		else
@@ -107,8 +107,8 @@ double	vinter(t_mapdata *map, double rayangle)
 	{
 		if (iswall(ax - hu, ay, map))
 		{
-			g_wallvx = ax;
-			g_wallvy = ay;
+			WALLVX = ax;
+			WALLVY = ay;
 			break;
 		}
 		else
@@ -120,14 +120,14 @@ double	vinter(t_mapdata *map, double rayangle)
 	return (sqrtf((ay - PY) * (ay - PY) + (ax - PX) * (ax - PX)));
 }
 
-void	initwallxy()
+void	initwallxy(t_mapdata *map)
 {
-	g_wallx = 0;
-	g_wally = 0;
-	g_wallvx = 0;
-	g_wallvy = 0;
-	g_wallhx = 0;
-	g_wallhy = 0;
+	WALLX = 0;
+	WALLY = 0;
+	WALLVX = 0;
+	WALLVY = 0;
+	WALLHX = 0;
+	WALLHY = 0;
 	g_hith = 0;
 	g_hitv = 0;
 }
@@ -138,22 +138,22 @@ double	colmdist(t_mapdata *map, double rayangle)
 	double hdist = 0;
 	double vdist = 0;
 	
-	initwallxy();
+	initwallxy(map);
 	normalangle(&rayangle);
 	rayfacing(rayangle);
 	hdist = hinter(map, rayangle);
 	vdist = vinter(map, rayangle);
 	if (hdist < vdist)
 	{
-		g_wallx = g_wallhx;
-		g_wally = g_wallhy;
+		WALLX = WALLHX;
+		WALLY = WALLHY;
 		dist = hdist;
 		g_hith = 1;
 	}
 	else
 	{
-		g_wallx = g_wallvx;
-		g_wally = g_wallvy;
+		WALLX = WALLVX;
+		WALLY = WALLVY;
 		dist = vdist;
 		g_hitv = 1; 
 	}
