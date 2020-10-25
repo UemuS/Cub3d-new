@@ -58,6 +58,12 @@ void	ft_init(t_mapdata *map)
 	map->rt = M_PI / 2;
 	map->sd = 0;
 	map->jp = 0;
+	map->jmp = 0;
+	map->jmpincr = 0;
+	map->jpincr = 0;
+	map->checkjmp = 0;
+	g_dec = 20;
+	g_checkdoor = 0;
 }
 
 void	ft_read(int fd, t_mapdata *map)

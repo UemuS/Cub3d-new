@@ -39,6 +39,8 @@ void	ft_fetch(char *line, int *height, int *width, t_mapdata *map)
 	(check != 2) ? ft_error("wrong number of params") : 0;
 	HT = (*height > 1440) ? 1440 : *height;
 	WH = (*width > 2560) ? 2560 : *width;
+	HT = ((*height < 500) ? 500 : *height);
+	WH = (*width < 500) ? 500 : *width;
 }
 
 int		ft_intlen(int num)

@@ -30,13 +30,13 @@ void	continuetreatingthatmap(t_mapdata *map)
 		else if (i > 0 && i < g_rows - 1)
 		{
 			while (MAP2D[i][++j])
-			if (MAP2D[i][j] == '0')
-			{
-				ft_cw(MAP2D[i + 1][j]) == 0 ? ft_error("Not surrounded") : 0;
-				ft_cw(MAP2D[i - 1][j]) == 0 ? ft_error("Not surrounded") : 0;
-				ft_cw(MAP2D[i][j + 1]) == 0 ? ft_error("Not surrounded") : 0;
-				ft_cw(MAP2D[i][j - 1]) == 0 ? ft_error("Not surrounded") : 0;
-			}
+				if (MAP2D[i][j] == '0')
+				{
+					ft_cw(MAP2D[i + 1][j]) == 0 ? ft_error("Not surrounded") : 0;
+					ft_cw(MAP2D[i - 1][j]) == 0 ? ft_error("Not surrounded") : 0;
+					ft_cw(MAP2D[i][j + 1]) == 0 ? ft_error("Not surrounded") : 0;
+					ft_cw(MAP2D[i][j - 1]) == 0 ? ft_error("Not surrounded") : 0;
+				}
 		}
 	}
 }
@@ -44,7 +44,7 @@ void	continuetreatingthatmap(t_mapdata *map)
 int		ft_cw(char i)
 {
 	if (i != '0' && i != '1' && i != '2' && i != 'N' && i != 'W' && 
-	i != 'S' && i != 'E')
+	i != 'S' && i != 'E' && i != '3')
 		return (0);
 	return (1);
 }
@@ -52,7 +52,7 @@ int		ft_cw(char i)
 int		helptreatingthatmap(char c)
 {
 	if (c != '1' && c != '2' && c != '0' && c != 'N'
-		&& c != 'S' && c != 'E' && c != 'W' && c != ' ')
+		&& c != 'S' && c != 'E' && c != 'W' && c != ' ' && c != '3')
 		return (0);
 	return (1);
 }

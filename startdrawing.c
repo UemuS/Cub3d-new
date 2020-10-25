@@ -135,6 +135,10 @@ int    deal_key(int key, t_mapdata *map)
         JP = 1;
     if (key == 125)
         JP = -1;
+    if (key == 49)
+        JMP = 1;
+    if (key == 5)
+        DOOR = 1;
     return(0);
 }
 int    release_key(int key, t_mapdata *map)
@@ -155,6 +159,10 @@ int    release_key(int key, t_mapdata *map)
         JP = 0;
     if (key == 125)
         JP = 0;
+    if (key == 49)
+        JMP = 0;
+    if (key == 5)
+        DOOR = 0;
     return(0);
 }
 
@@ -192,12 +200,10 @@ int     draw(t_mapdata *map)
     XPM_SO = mlx_xpm_file_to_image(g_mlx_ptr, SO, &TXT_WH_SO, &TXT_HT_SO);
     XPM_EA = mlx_xpm_file_to_image(g_mlx_ptr, EA, &TXT_WH_EA, &TXT_HT_EA);
     XPM_WE = mlx_xpm_file_to_image(g_mlx_ptr, WE, &TXT_WH_WE, &TXT_HT_WE);
-    XPM_FL = mlx_xpm_file_to_image(g_mlx_ptr, "floor.xpm", &TXT_FLW, &TXT_FLH);
     TXT_BUF_NO = (int *)mlx_get_data_addr(XPM_NO, &bpp, &size_line, &endian);
     TXT_BUF_SO = (int *)mlx_get_data_addr(XPM_SO, &bpp, &size_line, &endian);
     TXT_BUF_EA = (int *)mlx_get_data_addr(XPM_EA, &bpp, &size_line, &endian);
     TXT_BUF_WE = (int *)mlx_get_data_addr(XPM_WE, &bpp, &size_line, &endian);
-    TXT_BUF_FL = (int *)mlx_get_data_addr(XPM_FL, &bpp, &size_line, &endian);
     ft_drawall(map);
     ft_draw_player(map);
     mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_img_ptr, 0, 0);
@@ -217,7 +223,7 @@ void	ft_draw_player(t_mapdata *map)
     RT = fmod(RT, 2*M_PI);
     if (RT < 0)
         RT += 2*M_PI;
-    RT = RT + (TD * 0.02);
+    RT = RT + (TD * 0.05);
     if (MAP2D[(int)(PY + (WD * sin(RT) * 8) )/ (TILE_SIZE)][(int)(PX + (WD * cos(RT) * 8)) / (TILE_SIZE)] != '1')
         if (MAP2D[(int)(PY + (SD * sin(RT + 90*M_PI/180) * 8))/ (TILE_SIZE)][(int)(PX + (SD * cos(RT + 90*M_PI/180) * 8)) / (TILE_SIZE)] != '1')
         {
@@ -226,13 +232,31 @@ void	ft_draw_player(t_mapdata *map)
         }
     if (JP == 1)
     {
-        if ( JPINCR < 200)
+        if (JPINCR < 200)
             JPINCR += 10;
     }
     else if (JP == -1)
     {
         if ( JPINCR > -200)
             JPINCR -= 10;
+    }
+    if (JMP == 1 && CHCJMP == 0)
+    {
+        if (JMPINCR < 100)
+            JMPINCR += 10;
+        if (JMPINCR == 100)
+            CHCJMP = 1;
+    }
+    if (JMP == 0 || CHCJMP == 1)
+    {
+        if (JMPINCR > 0)
+            JMPINCR -= 10;
+        if (JMPINCR <= 0)
+            CHCJMP = 0;
+    }
+    if (DOOR == 1)
+    {
+        g_dec += 5;
     }
     castrays(map);
    // lifebar(map);

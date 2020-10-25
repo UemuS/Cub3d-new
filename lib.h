@@ -39,6 +39,9 @@ typedef struct	s_list
 	int		sd;
 	int		jp;
 	int		jpincr;
+	int		jmp;
+	int		jmpincr;
+	int		checkjmp;
 	double	ix;
 	double	jy;
 	double	rt;
@@ -81,6 +84,7 @@ typedef struct	s_list
 	int		txt_ht_we;
 	int		txt_flw;
 	int		txt_flh;
+	int		door;
 }				t_mapdata;
 
 typedef struct	s_lst
@@ -133,6 +137,9 @@ typedef struct		s_bmp_file
 # define HH map->choice
 # define JP map->jp
 # define JPINCR map->jpincr
+# define JMP map->jmp
+# define JMPINCR map->jmpincr
+# define CHCJMP map->checkjmp
 # define TILE_SIZE 32
 # define WALLHX	map->wallhx
 # define WALLHY map->wallhy
@@ -165,6 +172,7 @@ typedef struct		s_bmp_file
 # define TXT_HT_WE map->txt_ht_we
 # define TXT_FLW map->txt_flw
 # define TXT_FLH map->txt_flw
+# define DOOR map->door
 
 /*int 			ft_interhor(t_mapdata *map, int i, int j);
 int 			ft_interver(t_mapdata *map, int i, int j);*/
@@ -257,5 +265,9 @@ int				g_FL;
 int				g_CL;
 void			*g_mlx_win;
 void			*g_mlx_ptr;
+int				g_checkdoor;
+int				g_chkh;
+int				g_chkv;
+int				g_dec;
 
 #endif

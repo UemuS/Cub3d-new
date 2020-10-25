@@ -38,13 +38,13 @@ int		check_vision_ht(t_mapdata *map)
 	return (0);
 }
 
-int		colmcolor(int textX, int i, int wall, int jpi, t_mapdata *map)
+int		colmcolor(int textX, int i, int wall, int jpi, int jmpi, t_mapdata *map)
 {
 	int		textureOffsetY;
 	int		distanceFromTop;
 
 	distanceFromTop = i + (wall / 2) - (HT / 2);
-	textureOffsetY = (distanceFromTop - jpi) * ((float)check_vision_ht(map) / wall);
+	textureOffsetY = (distanceFromTop - jpi - jmpi) * ((float)check_vision_ht(map) / wall);
 	if (g_rayup && g_hith)
 		return (TXT_BUF_NO[textX + (textureOffsetY * TXT_WH_NO)]);
 	if (g_rayleft && g_hitv)
@@ -80,8 +80,8 @@ void	drawcolm(int col, double wallh, t_mapdata *map)
 
 	k = -1;
 	wall = (int)wallh;
-	i = ((HT / 2) - (wall / 2)) + JPINCR;
-	j = ((HT / 2) + (wall / 2)) + JPINCR;
+	i = ((HT / 2) - (wall / 2)) + JPINCR + JMPINCR;
+	j = ((HT / 2) + (wall / 2)) + JPINCR + JMPINCR;
 	if (g_hith == 1)
 		textX = (ft_fmod(WALLX, TILE_SIZE) * (check_vision_wh(map) / TILE_SIZE));
 	else
@@ -91,7 +91,7 @@ void	drawcolm(int col, double wallh, t_mapdata *map)
 	while (i <= j && i < HT)
 	{
 		if (i >=0 && i < HT && col >= 0 && col < WH)
-			g_img_data[i * WH + col] = colmcolor(textX, i, wall, JPINCR, map);
+			g_img_data[i * WH + col] = colmcolor(textX, i, wall, JPINCR, JMPINCR, map);
 		i++;
 	}
 	while (++j < HT)

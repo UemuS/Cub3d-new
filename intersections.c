@@ -34,8 +34,16 @@ int		iswall(double x, double y, t_mapdata *map)
 {
 	int mapy = floor(y / (double)TILE_SIZE);
 	int mapx = floor(x / (double)TILE_SIZE);
+	
 	if (mapx >= 0 && mapx < g_case && mapy >=0 && mapy < g_rows)
-		return ((MAP2D[mapy][mapx] == '1'));
+	{
+		if (MAP2D[mapy][mapx] == '3' && ((y - PY) * (y - PY) + (x - PX) * (x - PX)) < 10)
+		{
+			MAP2D[mapy][mapx] = '0';
+		}
+		if (MAP2D[mapy][mapx] == '1' || MAP2D[mapy][mapx] == '3') // 3 is secret doors
+				return (1);
+	}
 	return (0);
 }
 
@@ -72,7 +80,7 @@ double	hinter(t_mapdata *map, double rayangle)
 		h++;
 	while (inwin(ax, ay))
 	{
-		if (iswall(ax, ay - h, map))
+		if (iswall(ax, ay - h, map) == 1)
 		{
 			WALLHX = ax;
 			WALLHY = ay;
@@ -105,7 +113,7 @@ double	vinter(t_mapdata *map, double rayangle)
 		hu++;
 	while (inwin(ax, ay))
 	{
-		if (iswall(ax - hu, ay, map))
+		if (iswall(ax - hu, ay, map) == 1)
 		{
 			WALLVX = ax;
 			WALLVY = ay;
@@ -155,7 +163,7 @@ double	colmdist(t_mapdata *map, double rayangle)
 		WALLX = WALLVX;
 		WALLY = WALLVY;
 		dist = vdist;
-		g_hitv = 1; 
+		g_hitv = 1;
 	}
 	return (dist);
 }
