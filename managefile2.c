@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:27 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 23:32:37 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/04 18:47:01 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,35 @@
 
 void	ft_east(t_mapdata *map, char *line)
 {
-	static int i = -1;
+	static int	i = -1;
 
-	while (line[++i])
-	{
-		if (line[i] == 'E' && line[i + 1] == 'A' &&
+	if (line[i] == 'E' && line[i + 1] == 'A' &&
 			line[i + 2] != ' ')
-			ft_error("Something is wrong with the path EA");
-		if (line[i] == '.')
-		{
-			EA = ft_substr(line, i, ft_strlen(line + i));
-			ft_lstadd_front(&g_mylist, ft_lstnew(EA));
-			MCHECK++;
-			break ;
-		}
-	}
+		ft_error("Something is wrong with the path EA");
+	i = 2;
+	while (line[++i] == ' ')
+		continue;
+	EA = ft_substr(line, i, ft_strlen(line + i));
+	ft_lstadd_front(&g_mylist, ft_lstnew(EA));
+	if (open(SO, O_WRONLY | O_APPEND) == -1)
+		ft_error("Invalid path to east");
+	MCHECK++;
 }
 
 void	ft_sprite(t_mapdata *map, char *line)
 {
-	static int i = -1;
+	static int	i = -1;
 
-	while (line[++i])
-	{
-		if (line[i] == 'S' && line[i + 1] != ' ')
-			ft_error("Something is wrong with the path S");
-		if (line[i] == '.')
-		{
-			S = ft_substr(line, i, ft_strlen(line + i));
-			ft_lstadd_front(&g_mylist, ft_lstnew(S));
-			MCHECK++;
-			break ;
-		}
-	}
+	if (line[i] == 'S' && line[i + 1] == ' ')
+		ft_error("Something is wrong with the path of sprite");
+	i = 1;
+	while (line[++i] == ' ')
+		continue;
+	S = ft_substr(line, i, ft_strlen(line + i));
+	ft_lstadd_front(&g_mylist, ft_lstnew(S));
+	if (open(S, O_WRONLY | O_APPEND) == -1)
+		ft_error("Invalid path to sprite");
+	MCHECK++;
 }
 
 void	ft_floor(t_mapdata *map, char *line)
@@ -119,5 +115,6 @@ void	ft_intro(int fd)
 		printf("%s |\n", MAP2D[i]);
 		i++;
 	}
+	free(MAP0);
 	ft_drawmap(map);
 }

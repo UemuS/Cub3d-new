@@ -6,7 +6,7 @@
 /*   By: yihssan <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:13 by yihssan           #+#    #+#             */
-/*   Updated: 2020/02/24 09:35:15 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/04 18:46:49 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ void	ft_fetch(char *line, int *height, int *width, t_mapdata *map)
 	}
 	(!(line[1] == ' ')) ? ft_error("no space after R") : 0;
 	(check != 2) ? ft_error("wrong number of params") : 0;
-	HT = (*height > 1440) ? 1440 : *height;
-	WH = (*width > 2560) ? 2560 : *width;
-	HT = ((*height < 500) ? 500 : *height);
-	WH = (*width < 500) ? 500 : *width;
+	HT = (*height > MAX_HEIGHT) ? MAX_HEIGHT : *height;
+	WH = (*width > MAX_WIDTH) ? MAX_WIDTH : *width;
+	HT = ((*height < MIN_WIDTH) ? MIN_WIDTH : *height);
+	WH = (*width < MIN_WIDTH) ? MIN_WIDTH : *width;
+	free(line);
 }
 
 int		ft_intlen(int num)
@@ -67,55 +68,49 @@ void	ft_north(t_mapdata *map, char *line)
 {
 	static int	i = -1;
 
-	while (line[++i])
-	{
-		if (line[i] == 'N' && line[i + 1] == 'O' &&
+	if (line[i] == 'N' && line[i + 1] == 'O' &&
 			line[i + 2] != ' ')
-			ft_error("Something is wrong with the path NO");
-		if (line[i] == '.')
-		{
-			NO = ft_substr(line, i, ft_strlen(line + i));
-			ft_lstadd_front(&g_mylist, ft_lstnew(NO));
-			MCHECK++;
-			break ;
-		}
-	}
+		ft_error("Something is wrong with the path NO");
+	i = 2;
+	while (line[++i] == ' ')
+		continue;
+	NO = ft_substr(line, i, ft_strlen(line + i));
+	ft_lstadd_front(&g_mylist, ft_lstnew(NO));
+	if (open(NO, O_WRONLY | O_APPEND) == -1)
+		ft_error("Invalid path to north");
+	MCHECK++;
 }
 
 void	ft_south(t_mapdata *map, char *line)
 {
-	static int i = -1;
+	static int	i = -1;
 
-	while (line[++i])
-	{
-		if (line[i] == 'S' && line[i + 1] == 'O' &&
+	if (line[i] == 'S' && line[i + 1] == 'O' &&
 			line[i + 2] != ' ')
-			ft_error("Something is wrong with the path SO");
-		if (line[i] == '.')
-		{
-			SO = ft_substr(line, i, ft_strlen(line + i));
-			ft_lstadd_front(&g_mylist, ft_lstnew(SO));
-			MCHECK++;
-			break ;
-		}
-	}
+		ft_error("Something is wrong with the path SO");
+	i = 2;
+	while (line[++i] == ' ')
+		continue;
+	SO = ft_substr(line, i, ft_strlen(line + i));
+	ft_lstadd_front(&g_mylist, ft_lstnew(SO));
+	if (open(SO, O_WRONLY | O_APPEND) == -1)
+		ft_error("Invalid path to south");
+	MCHECK++;
 }
 
 void	ft_west(t_mapdata *map, char *line)
 {
-	static int i = -1;
+	static int	i = -1;
 
-	while (line[++i])
-	{
-		if (line[i] == 'W' && line[i + 1] == 'E' &&
+	if (line[i] == 'W' && line[i + 1] == 'E' &&
 			line[i + 2] != ' ')
-			ft_error("Something is wrong with the path WE");
-		if (line[i] == '.')
-		{
-			WE = ft_substr(line, i, ft_strlen(line + i));
-			ft_lstadd_front(&g_mylist, ft_lstnew(WE));
-			MCHECK++;
-			break ;
-		}
-	}
+		ft_error("Something is wrong with the path WE");
+	i = 2;
+	while (line[++i] == ' ')
+		continue;
+	WE = ft_substr(line, i, ft_strlen(line + i));
+	ft_lstadd_front(&g_mylist, ft_lstnew(WE));
+	if (open(WE, O_WRONLY | O_APPEND) == -1)
+		ft_error("Invalid path to west");
+	MCHECK++;
 }

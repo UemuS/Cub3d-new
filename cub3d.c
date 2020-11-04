@@ -64,6 +64,7 @@ void	ft_init(t_mapdata *map)
 	map->checkjmp = 0;
 	g_dec = 20;
 	g_checkdoor = 0;
+	g_count = 0;
 }
 
 void	ft_read(int fd, t_mapdata *map)

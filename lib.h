@@ -25,6 +25,22 @@
 # include <string.h>
 # include <fcntl.h>
 
+typedef struct	s_prite
+{
+	float	x;
+	float	x_off;
+	float	y;
+	float	y_off;
+	float	dist;
+	float	size;
+	int		width;
+	int		height;
+	int		*sdata;
+	int		ditch;
+	int		ditch1;
+	void	*simg;
+}				t_sprite;
+
 typedef struct	s_list
 {
 	int		width;
@@ -50,7 +66,6 @@ typedef struct	s_list
 	char	*south;
 	char	*west;
 	char	*east;
-	char	*sprite;
 	char	**map2d;
 	char	*fl;
 	char	*cl;
@@ -65,14 +80,16 @@ typedef struct	s_list
 	void	*xpm_SO;
 	void	*xpm_EA;
 	void	*xpm_WE;
-	void	*xpm_SP;
+	void	*xpm_HUD;
 	void	*xpm_fl;
+	void	*xpm_vis;
 	int		*texture_buffer_NO;
 	int		*texture_buffer_SO;
 	int		*texture_buffer_EA;
 	int		*texture_buffer_WE;
-	int		*texture_buffer_SP;
+	int		*texture_buffer_HUD;
 	int		*texture_buffer_fl;
+	int		*texture_buffer_vis;
 	int		color_buffer_texture;
 	int		txt_wh_no;
 	int		txt_ht_no;
@@ -82,9 +99,14 @@ typedef struct	s_list
 	int		txt_ht_ea;
 	int		txt_wh_we;
 	int		txt_ht_we;
+	int		txt_wh_hud;
+	int		txt_ht_hud;
 	int		txt_flw;
 	int		txt_flh;
 	int		door;
+	int 	*raydist;
+	char			*sprite;
+	t_sprite		*sprites;
 }				t_mapdata;
 
 typedef struct	s_lst
@@ -92,6 +114,7 @@ typedef struct	s_lst
 	void			*content;
 	struct s_lst	*next;
 }				t_list;
+
 
 typedef struct		s_bmp_file
 {
@@ -122,9 +145,9 @@ typedef struct		s_bmp_file
 # define SO map->south
 # define WE map->west
 # define EA map->east
-# define S map->sprite
 # define F map->floor
 # define C map->ceeling
+# define S map->sprite
 # define MAP0 map->maponestr
 # define MAP2D map->map2d
 # define MCHECK map->mapcheck
@@ -140,7 +163,10 @@ typedef struct		s_bmp_file
 # define JMP map->jmp
 # define JMPINCR map->jmpincr
 # define CHCJMP map->checkjmp
-# define TILE_SIZE 32
+# define T_SIZE 64
+# define MIN_WIDTH 500
+# define MAX_WIDTH 2560
+# define MAX_HEIGHT 1440
 # define WALLHX	map->wallhx
 # define WALLHY map->wallhy
 # define WALLVX map->wallvx
@@ -154,6 +180,7 @@ typedef struct		s_bmp_file
 # define XPM_SP map->xpm_SP
 # define XPM_FL map->xpm_fl
 # define XPM_HUD map->xpm_HUD
+# define XPM_VIS map->xpm_vis
 # define TXT_BUF_NO map->texture_buffer_NO
 # define TXT_BUF_SO map->texture_buffer_SO
 # define TXT_BUF_EA map->texture_buffer_EA
@@ -161,6 +188,7 @@ typedef struct		s_bmp_file
 # define TXT_BUF_SP map->texture_buffer_SP
 # define TXT_BUF_FL map->texture_buffer_fl
 # define TXT_BUF_HUD map->texture_buffer_HUD
+# define TXT_BUF_VIS map->texture_buffer_vis
 # define COLOR_BUF_TXT map->color_buffer_texture
 # define TXT_WH_NO map->txt_wh_no
 # define TXT_HT_NO map->txt_ht_no
@@ -170,12 +198,20 @@ typedef struct		s_bmp_file
 # define TXT_HT_EA map->txt_ht_ea
 # define TXT_WH_WE map->txt_wh_we
 # define TXT_HT_WE map->txt_ht_we
+# define TXT_WH_HUD map->txt_wh_hud
+# define TXT_HT_HUD map->txt_ht_hud
 # define TXT_FLW map->txt_flw
 # define TXT_FLH map->txt_flw
 # define DOOR map->door
+# define SPRITES map->sprites
+# define SH map->sprites[k].height
+# define SW map->sprites[k].width
+# define DT map->sprites[k].ditch
+# define DT1 map->sprites[k].ditch1
+# define RAYDIST map->raydist
+# define RAD(x) (x * (M_PI / 180))
+# define DEG(x) ((180 / M_PI) * x)
 
-/*int 			ft_interhor(t_mapdata *map, int i, int j);
-int 			ft_interver(t_mapdata *map, int i, int j);*/
 void			ft_init(t_mapdata *map);
 void			ft_error(char *s);
 void			ft_intro(int fd);
@@ -206,8 +242,6 @@ int				ft_isdigit(int c);
 char			*itoa_base(long long n, char *base);
 int				helpread(char *line, t_mapdata *map, int r);
 int				count_words(const char *str, char c);
-//int				g_txt_hudx;
-//int				g_txt_hudy;
 size_t			ft_strlen(const char *s);
 char			*ft_strdup(const char *s1);
 char			*ft_substr(char *dst, unsigned int start, size_t len);
@@ -239,6 +273,15 @@ double			colmdistsprite(t_mapdata *map, double rayangle);
 void			castrayssp(t_mapdata *map);
 int    			lifebar(t_mapdata *map);
 double			ft_fmod(double a, double b);
+void			init_spt(t_mapdata *map);
+void			ft_helpdrawasquare(t_mapdata *map);
+void			to_sprite(t_mapdata *map, int m);
+int				check_vision_ht(t_mapdata *map);
+int				check_vision_wh(t_mapdata *map);
+void			rayfacing(double rayangle);
+double			normalangle(double *rayangle);
+void			initwallxy(t_mapdata *map);
+
 
 t_list			*g_mylist;
 void    		*g_img_ptr;
@@ -269,5 +312,5 @@ int				g_checkdoor;
 int				g_chkh;
 int				g_chkv;
 int				g_dec;
-
+int				g_count;
 #endif

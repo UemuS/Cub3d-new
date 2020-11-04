@@ -12,112 +12,54 @@
 
 #include "lib.h"
 
-double	ft_fmod(double a, double b)
-{
-	return (a - (floor(a/b) * b));
-}
-
-double ft_fabs(double a)
-{
-	return	((a >= 0) ? a : -a);
-}
-
-double	normalangle(double *rayangle)
-{
-	*rayangle = fmod(*rayangle, (2 * M_PI));
-	if (*rayangle < 0)
-		*rayangle = (2 * M_PI) + *rayangle;
-	return (*rayangle);
-}
-
 int		iswall(double x, double y, t_mapdata *map)
 {
-	int mapy = floor(y / (double)TILE_SIZE);
-	int mapx = floor(x / (double)TILE_SIZE);
-	
-	if (mapx >= 0 && mapx < g_case && mapy >=0 && mapy < g_rows)
+	int		mapy;
+	int		mapx;
+	double	dis;
+
+	mapy = floor(y / (double)T_SIZE);
+	mapx = floor(x / (double)T_SIZE);
+	dis = ((y - PY) * (y - PY) + (x - PX) * (x - PX));
+	if (mapx >= 0 && mapx < g_case && mapy >= 0 && mapy < g_rows)
 	{
-		if (MAP2D[mapy][mapx] == '3' && ((y - PY) * (y - PY) + (x - PX) * (x - PX)) < 10)
-		{
+		if (MAP2D[mapy][mapx] == '3' && dis < 64)
 			MAP2D[mapy][mapx] = '0';
-		}
-		if (MAP2D[mapy][mapx] == '1' || MAP2D[mapy][mapx] == '3') // 3 is secret doors
-				return (1);
+		if (MAP2D[mapy][mapx] == '1' || MAP2D[mapy][mapx] == '3')
+			return (1);
 	}
 	return (0);
 }
 
-void	rayfacing(double rayangle)
-{
-	g_raydown = ((rayangle > 0) && (rayangle < M_PI));
-	g_rayup = !g_raydown;
-	g_rayright = ((rayangle < M_PI_2) || (rayangle > (1.5 * M_PI)));
-	g_rayleft = !g_rayright;
-}
-
 int		inwin(double x, double y)
 {
-	float H = g_case * TILE_SIZE;
-	float K = g_rows * TILE_SIZE;
-	return (((x >= 0) && (x <= H)) && ((y >= 0) && (y <= K)));
+	float h;
+	float k;
+
+	h = g_case * T_SIZE;
+	k = g_rows * T_SIZE;
+	return (((x >= 0) && (x <= h)) && ((y >= 0) && (y <= k)));
 }
 
 double	hinter(t_mapdata *map, double rayangle)
 {
-	double ax;
-	double ay;
-	double xstep;
-	double ystep;
-	int h = 0;
-	
-	ay = floor(PY / TILE_SIZE) * TILE_SIZE + (g_raydown ? TILE_SIZE : 0.001);
+	double	ax;
+	double	ay;
+	double	xstep;
+	double	ystep;
+
+	ay = floor(PY / T_SIZE) * T_SIZE + (g_raydown ? T_SIZE : 0.001);
 	ax = PX + ((ay - PY) / tan(rayangle));
-	ystep = TILE_SIZE * (g_rayup ? -1 : 1);
-	xstep = TILE_SIZE / tan(rayangle);
-	xstep *= (g_rayleft && (xstep > 0)) ? -1 : 1;
-	xstep *= (g_rayright && (xstep < 0)) ? -1 : 1;
-	if (g_rayup)
-		h++;
+	ystep = T_SIZE * (g_rayup ? -1 : 1);
+	xstep = T_SIZE / tan(rayangle);
+	xstep *= (g_rayleft && xstep > 0) || (g_rayright && xstep < 0) ? -1 : 1;
 	while (inwin(ax, ay))
 	{
-		if (iswall(ax, ay - h, map) == 1)
+		if (iswall(ax, ay - ((g_rayup) ? 1 : 0), map) == 1)
 		{
 			WALLHX = ax;
 			WALLHY = ay;
-			break;
-		}
-		else
-		{
-			ax += xstep;
-			ay += ystep;			
-		}
-	}
-	return (sqrtf((ay - PY) * (ay - PY) + (ax - PX) * (ax - PX)));
-}
-
-double	vinter(t_mapdata *map, double rayangle)
-{
-	double ax;
-	double ay;
-	double xstep;
-	double ystep;
-	int hu = 0;
-
-	ax = floor(PX / TILE_SIZE) * TILE_SIZE + (g_rayright ? TILE_SIZE : 0.001);
-	ay = PY + ((ax - PX) * tan(rayangle));
-	xstep = TILE_SIZE * (g_rayleft ? -1 : 1);
-	ystep = TILE_SIZE * tan(rayangle);
-	ystep *= (g_rayup && (ystep > 0)) ? -1 : 1;
-	ystep *= (g_raydown && (ystep < 0)) ? -1 : 1;
-	if (g_rayleft)
-		hu++;
-	while (inwin(ax, ay))
-	{
-		if (iswall(ax - hu, ay, map) == 1)
-		{
-			WALLVX = ax;
-			WALLVY = ay;
-			break;
+			break ;
 		}
 		else
 		{
@@ -128,24 +70,41 @@ double	vinter(t_mapdata *map, double rayangle)
 	return (sqrtf((ay - PY) * (ay - PY) + (ax - PX) * (ax - PX)));
 }
 
-void	initwallxy(t_mapdata *map)
+double	vinter(t_mapdata *map, double rayangle)
 {
-	WALLX = 0;
-	WALLY = 0;
-	WALLVX = 0;
-	WALLVY = 0;
-	WALLHX = 0;
-	WALLHY = 0;
-	g_hith = 0;
-	g_hitv = 0;
+	double	ax;
+	double	ay;
+	double	xstep;
+	double	ystep;
+
+	ax = floor(PX / T_SIZE) * T_SIZE + (g_rayright ? T_SIZE : 0.001);
+	ay = PY + ((ax - PX) * tan(rayangle));
+	xstep = T_SIZE * (g_rayleft ? -1 : 1);
+	ystep = T_SIZE * tan(rayangle);
+	ystep *= (g_rayup && (ystep > 0)) || (g_raydown && (ystep < 0)) ? -1 : 1;
+	while (inwin(ax, ay))
+	{
+		if (iswall(ax - (g_rayleft ? 1 : 0), ay, map) == 1)
+		{
+			WALLVX = ax;
+			WALLVY = ay;
+			break ;
+		}
+		else
+		{
+			ax += xstep;
+			ay += ystep;
+		}
+	}
+	return (sqrtf((ay - PY) * (ay - PY) + (ax - PX) * (ax - PX)));
 }
 
 double	colmdist(t_mapdata *map, double rayangle)
 {
 	double dist;
-	double hdist = 0;
-	double vdist = 0;
-	
+	double hdist;
+	double vdist;
+
 	initwallxy(map);
 	normalangle(&rayangle);
 	rayfacing(rayangle);

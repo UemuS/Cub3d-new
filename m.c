@@ -6,11 +6,24 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:59 by yihssan           #+#    #+#             */
-/*   Updated: 2020/03/11 22:26:23 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/04 18:46:37 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
+
+void	initwallxy(t_mapdata *map)
+{
+	WALLX = 0;
+	WALLY = 0;
+	WALLVX = 0;
+	WALLVY = 0;
+	WALLHX = 0;
+	WALLHY = 0;
+	g_hith = 0;
+	g_hitv = 0;
+}
+
 
 int	main(int argc, char **argv)
 {

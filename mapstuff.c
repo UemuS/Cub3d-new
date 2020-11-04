@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:38 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 23:35:37 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/04 18:47:22 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ void	continuetreatingthatmap(t_mapdata *map)
 		else if (i > 0 && i < g_rows - 1)
 		{
 			while (MAP2D[i][++j])
+			{
+				if (MAP2D[i][j] == '2')
+					g_count++;
 				if (MAP2D[i][j] == '0')
 				{
 					ft_cw(MAP2D[i + 1][j]) == 0 ? ft_error("Not surrounded") : 0;
@@ -37,6 +40,7 @@ void	continuetreatingthatmap(t_mapdata *map)
 					ft_cw(MAP2D[i][j + 1]) == 0 ? ft_error("Not surrounded") : 0;
 					ft_cw(MAP2D[i][j - 1]) == 0 ? ft_error("Not surrounded") : 0;
 				}
+			}
 		}
 	}
 }
@@ -44,7 +48,7 @@ void	continuetreatingthatmap(t_mapdata *map)
 int		ft_cw(char i)
 {
 	if (i != '0' && i != '1' && i != '2' && i != 'N' && i != 'W' && 
-	i != 'S' && i != 'E' && i != '3')
+			i != 'S' && i != 'E' && i != '3')
 		return (0);
 	return (1);
 }
@@ -52,7 +56,7 @@ int		ft_cw(char i)
 int		helptreatingthatmap(char c)
 {
 	if (c != '1' && c != '2' && c != '0' && c != 'N'
-		&& c != 'S' && c != 'E' && c != 'W' && c != ' ' && c != '3')
+			&& c != 'S' && c != 'E' && c != 'W' && c != ' ' && c != '3')
 		return (0);
 	return (1);
 }
@@ -60,7 +64,7 @@ int		helptreatingthatmap(char c)
 int		helpread(char *line, t_mapdata *map, int r)
 {
 	static int	loli = 0;
-	
+
 	if (line[0] == '\0' && loli == 0)
 	{
 		free(line);
@@ -97,10 +101,10 @@ void	treatthatmap(t_mapdata *map)
 		while (MAP2D[i][++j])
 		{
 			if ((MAP2D[i][j] == 'N' || MAP2D[i][j] == 'W'
-				|| MAP2D[i][j] == 'E' || MAP2D[i][j] == 'S') && p == 0)
+						|| MAP2D[i][j] == 'E' || MAP2D[i][j] == 'S') && p == 0)
 				p = 1;
 			else if ((MAP2D[i][j] == 'N' || MAP2D[i][j] == 'W'
-				|| MAP2D[i][j] == 'E' || MAP2D[i][j] == 'S') && p == 1)
+						|| MAP2D[i][j] == 'E' || MAP2D[i][j] == 'S') && p == 1)
 				ft_error("multiplayer game");
 			if (helptreatingthatmap(MAP2D[i][j]) == 0)
 				ft_error("something that shouldn't be in the map");
