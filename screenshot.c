@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   screenshot.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/05 14:44:00 by yihssan           #+#    #+#             */
+/*   Updated: 2020/11/05 18:31:19 by yihssan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lib.h"
 
 static	int		create_file(char *file_name)
@@ -12,7 +24,7 @@ static	int		create_file(char *file_name)
 	return (fd);
 }
 
-static void		head_make(t_bmp_file *info_bmp_file, t_mapdata *map)
+static void		head_make(t_bmp_file *info_bmp_file, t_mpdt *map)
 {
 	info_bmp_file->byte_type[0] = 0x42;
 	info_bmp_file->byte_type[1] = 0x4D;
@@ -78,12 +90,11 @@ static void		file_write(int fd, int imagesize)
 	free(pixel_array);
 }
 
-void			save_bmp(t_mapdata *map)
+void			save_bmp(t_mpdt *map)
 {
 	t_bmp_file	info_bmp_file;
 	int			fd;
 
-	printf("|%d %d", g_case, g_rows);
 	ft_bzero(&info_bmp_file, sizeof(t_bmp_file));
 	fd = create_file("screenshot.bmp");
 	head_make(&info_bmp_file, map);

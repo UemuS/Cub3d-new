@@ -6,13 +6,13 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:38 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/04 18:47:22 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/05 17:43:19 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-void	continuetreatingthatmap(t_mapdata *map)
+void	continuetreatingthatmap(t_mpdt *map)
 {
 	static int		i = -1;
 	static int		j;
@@ -22,46 +22,20 @@ void	continuetreatingthatmap(t_mapdata *map)
 		j = -1;
 		ft_lstadd_front(&g_mylist, ft_lstnew((MAP2D[i])));
 		if (i == 0 || i == g_rows - 1)
-		{
 			while (MAP2D[i][++j])
 				if (MAP2D[i][j] != '1' && MAP2D[i][j] != ' ')
 					ft_error("map extreems aren't closed");
-		}
-		else if (i > 0 && i < g_rows - 1)
-		{
+		if (i > 0 && i < g_rows - 1)
 			while (MAP2D[i][++j])
 			{
-				if (MAP2D[i][j] == '2')
-					g_count++;
+				g_count += (MAP2D[i][j] == '2') ? 1 : 0;
 				if (MAP2D[i][j] == '0')
-				{
-					ft_cw(MAP2D[i + 1][j]) == 0 ? ft_error("Not surrounded") : 0;
-					ft_cw(MAP2D[i - 1][j]) == 0 ? ft_error("Not surrounded") : 0;
-					ft_cw(MAP2D[i][j + 1]) == 0 ? ft_error("Not surrounded") : 0;
-					ft_cw(MAP2D[i][j - 1]) == 0 ? ft_error("Not surrounded") : 0;
-				}
+					ft_cw_er(map, i, j);
 			}
-		}
 	}
 }
 
-int		ft_cw(char i)
-{
-	if (i != '0' && i != '1' && i != '2' && i != 'N' && i != 'W' && 
-			i != 'S' && i != 'E' && i != '3')
-		return (0);
-	return (1);
-}
-
-int		helptreatingthatmap(char c)
-{
-	if (c != '1' && c != '2' && c != '0' && c != 'N'
-			&& c != 'S' && c != 'E' && c != 'W' && c != ' ' && c != '3')
-		return (0);
-	return (1);
-}
-
-int		helpread(char *line, t_mapdata *map, int r)
+int		helpread(char *line, t_mpdt *map, int r)
 {
 	static int	loli = 0;
 
@@ -88,7 +62,7 @@ int		helpread(char *line, t_mapdata *map, int r)
 	return (0);
 }
 
-void	treatthatmap(t_mapdata *map)
+void	treatthatmap(t_mpdt *map)
 {
 	static int i = -1;
 	static int j = -1;
@@ -118,6 +92,6 @@ void	treatthatmap(t_mapdata *map)
 int		ft_check_fc(int i, int j, int k)
 {
 	if (i > 255 || i < 0 || j > 255 || j < 0 || k > 255 || k < 0)
-		return (1);
-	return (0);
+		ft_error("problem in the ceiling");
+	return (1);
 }

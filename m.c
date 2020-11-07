@@ -6,13 +6,24 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:59 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/04 18:46:37 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/07 00:05:13 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-void	initwallxy(t_mapdata *map)
+void	ft_drawmap(t_mpdt *map)
+{
+	g_loli = 0;
+	g_mlx_ptr = mlx_init();
+	g_mlx_win = mlx_new_window(g_mlx_ptr, WH, HT, "");
+	mlx_hook(g_mlx_win, 2, 0, deal_key, map);
+	mlx_hook(g_mlx_win, 3, 0, release_key, map);
+	mlx_loop_hook(g_mlx_ptr, draw, map);
+	mlx_loop(g_mlx_ptr);
+}
+
+void	initwallxy(t_mpdt *map)
 {
 	WALLX = 0;
 	WALLY = 0;
@@ -24,21 +35,21 @@ void	initwallxy(t_mapdata *map)
 	g_hitv = 0;
 }
 
-
-int	main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	int fd;
 
 	g_mylist = ft_lstnew(0);
-	g_checksave = 1;
+	g_checksave = 0;
 	if (argc == 2 && !ft_strncmp(argv[1], "map.cub", 8))
 	{
 		fd = open(argv[1], O_RDONLY);
 		ft_intro(fd);
 	}
-	if (argc == 3 && !ft_strncmp(argv[1], "map.cub", 8) && !ft_strncmp(argv[2], "--save", 7))
+	if (argc == 3 && !ft_strncmp(argv[1], "map.cub", 8)
+		&& !ft_strncmp(argv[2], "--save", 7))
 	{
-		g_checksave = 0;
+		g_checksave = 1;
 		fd = open(argv[1], O_RDONLY);
 		ft_intro(fd);
 	}

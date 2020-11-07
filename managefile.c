@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage.c                                           :+:      :+:    :+:   */
+/*   managefile.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yihssan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:13 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/04 18:46:49 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/05 18:28:10 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-void	ft_fetch(char *line, int *height, int *width, t_mapdata *map)
+void	ft_fetch(char *line, int *height, int *width, t_mpdt *map)
 {
 	static int	i = 0;
 	static int	cond1 = 1;
@@ -37,11 +37,7 @@ void	ft_fetch(char *line, int *height, int *width, t_mapdata *map)
 	}
 	(!(line[1] == ' ')) ? ft_error("no space after R") : 0;
 	(check != 2) ? ft_error("wrong number of params") : 0;
-	HT = (*height > MAX_HEIGHT) ? MAX_HEIGHT : *height;
-	WH = (*width > MAX_WIDTH) ? MAX_WIDTH : *width;
-	HT = ((*height < MIN_WIDTH) ? MIN_WIDTH : *height);
-	WH = (*width < MIN_WIDTH) ? MIN_WIDTH : *width;
-	free(line);
+	ft_mmwindow(map, height, width);
 }
 
 int		ft_intlen(int num)
@@ -64,7 +60,7 @@ int		ft_intlen(int num)
 	return (i);
 }
 
-void	ft_north(t_mapdata *map, char *line)
+void	ft_north(t_mpdt *map, char *line)
 {
 	static int	i = -1;
 
@@ -81,7 +77,7 @@ void	ft_north(t_mapdata *map, char *line)
 	MCHECK++;
 }
 
-void	ft_south(t_mapdata *map, char *line)
+void	ft_south(t_mpdt *map, char *line)
 {
 	static int	i = -1;
 
@@ -98,7 +94,7 @@ void	ft_south(t_mapdata *map, char *line)
 	MCHECK++;
 }
 
-void	ft_west(t_mapdata *map, char *line)
+void	ft_west(t_mpdt *map, char *line)
 {
 	static int	i = -1;
 

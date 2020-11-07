@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sprite.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/05 14:44:07 by yihssan           #+#    #+#             */
+/*   Updated: 2020/11/07 02:31:40 by yihssan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lib.h"
 
-void	draw_sprite(t_mapdata *map, int id)
+void	draw_sprite(t_mpdt *map, int id)
 {
 	int		i;
 	int		j;
@@ -18,18 +30,18 @@ void	draw_sprite(t_mapdata *map, int id)
 		j = -1;
 		while (++j < size)
 		{
-			if (SPRITES[id].y_off + j < 0 || SPRITES[id].y_off + j > HT)
-				continue ;
-			c = SPRITES->sdata[(int)((T_SIZE) *
-					(T_SIZE * j / (int)size) + (T_SIZE * i / (int)size))];
+			c = SPRITES->sdata[(int)((TL_SZE) *
+					(TL_SZE * j / (int)size) + (TL_SZE * i / (int)size))];
 			if (c != SPRITES->sdata[0] && j + 1 <= size && i + 1 <= size)
-				g_img_data[(int)((j + SPRITES[id].y_off) *
-						WH + (i + SPRITES[id].x_off))] = c;
+				if ((int)((j + SPRITES[id].y_off)
+				* WH + (i + SPRITES[id].x_off)) < WH * HT)
+					g_img_data[(int)((j + SPRITES[id].y_off) *
+					WH + (i + SPRITES[id].x_off))] = c;
 		}
 	}
 }
 
-void	to_sort(t_mapdata *map)
+void	to_sort(t_mpdt *map)
 {
 	int			i;
 	int			j;
@@ -57,7 +69,7 @@ void	to_sort(t_mapdata *map)
 	}
 }
 
-void	to_sprite(t_mapdata *map, int m)
+void	to_sprite(t_mpdt *map, int m)
 {
 	float	angle;
 	int		k;
@@ -75,25 +87,27 @@ void	to_sprite(t_mapdata *map, int m)
 		while (angle - RT < -M_PI)
 			angle += 2 * M_PI;
 		if (HT > WH)
-			SPRITES[k].size = (HT / SPRITES[k].dist) * T_SIZE;
+			SPRITES[k].size = (HT / SPRITES[k].dist) * TL_SZE;
 		else
-			SPRITES[k].size = (WH / SPRITES[k].dist) * T_SIZE;
-		SPRITES[k].y_off = HT / 2 - (int)SPRITES[k].size / 2  + JPINCR + JMPINCR;
+			SPRITES[k].size = (WH / SPRITES[k].dist) * TL_SZE;
+		SPRITES[k].y_off = HT / 2 - (int)SPRITES[k].size / 2
+		+ JPINCR + JMPINCR;
 		SPRITES[k].x_off = ((DEG(angle) - DEG(RT)) * WH)
-			/ (float)T_SIZE + ((WH / 2) - (int)SPRITES[k].size / 2);
+			/ (float)TL_SZE + ((WH / 2) - (int)SPRITES[k].size / 2);
 		draw_sprite(map, k);
 	}
 }
 
-void	ft_helpdrawasquare(t_mapdata *map)
+void	ft_helpdrawasquare(t_mpdt *map)
 {
+	init_spt(map);
 	RAYDIST = malloc(sizeof(int *) * WH);
 	ft_lstadd_front(&g_mylist, ft_lstnew(RAYDIST));
 	ft_drawall(map);
 	ft_draw_player(map);
 }
 
-void	init_spt(t_mapdata *map)
+void	init_spt(t_mpdt *map)
 {
 	int			i;
 	int			j;
@@ -112,10 +126,10 @@ void	init_spt(t_mapdata *map)
 		{
 			if (MAP2D[i][j] == '2')
 			{
-				SPRITES[k].x = (j + 0.5f) * T_SIZE;
-				SPRITES[k].y = (i + 0.5f) * T_SIZE;
+				SPRITES[k].x = (j + 0.5f) * TL_SZE;
+				SPRITES[k].y = (i + 0.5f) * TL_SZE;
 				SPRITES[k].dist = sqrtf(((SPRITES[k].x) - PX) * ((SPRITES[k].x)
-							- PX) + ((SPRITES[k].y) - PY) * ((SPRITES[k].y) - PY));
+					- PX) + ((SPRITES[k].y) - PY) * ((SPRITES[k].y) - PY));
 				k++;
 			}
 		}

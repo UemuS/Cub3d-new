@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:46 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/17 00:32:51 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/05 18:30:23 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,14 @@ static char	**ft_frees(char **w, int j)
 	return (0);
 }
 
-char		**ft_split(char const *s, char c, t_mapdata *map)
+int			ft_useless(char const *s, int c, int i)
+{
+	while (s[i] == c)
+		i++;
+	return (i);
+}
+
+char		**ft_split(char const *s, char c, t_mpdt *map)
 {
 	char	**w;
 	int		i;
@@ -61,8 +68,7 @@ char		**ft_split(char const *s, char c, t_mapdata *map)
 	while (s[i] != '\0' && j < count_words(s, c))
 	{
 		k = 0;
-		while (s[i] == c)
-			i++;
+		i = ft_useless(s, c, i);
 		if (!(w[j] = (char*)malloc(sizeof(char) * ft_longest_array(map))))
 			return (ft_frees(w, j));
 		while (s[i] != '\0' && s[i] != c)
@@ -75,7 +81,7 @@ char		**ft_split(char const *s, char c, t_mapdata *map)
 	return (w);
 }
 
-int			ft_longest_array(t_mapdata *map)
+int			ft_longest_array(t_mpdt *map)
 {
 	int	i;
 	int	j;

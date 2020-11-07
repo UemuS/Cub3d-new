@@ -6,13 +6,13 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 22:10:22 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 17:57:09 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/07 01:57:53 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-double	wallheight(double rayangle, t_mapdata *map, int col)
+double	wallheight(double rayangle, t_mpdt *map, int col)
 {
 	double prjplane;
 	double wallh;
@@ -20,13 +20,13 @@ double	wallheight(double rayangle, t_mapdata *map, int col)
 
 	g_hit_side = (g_hith) ? 1 : 0;
 	dist = colmdist(map, rayangle) * cos(rayangle - RT);
-	RAYDIST[col] = dist;
+	RAYDIST[col] = colmdist(map, rayangle);
 	prjplane = (WH / 2) / tan(M_PI / 6);
-	wallh = (T_SIZE / dist) * prjplane;
+	wallh = (TL_SZE / dist) * prjplane;
 	return (wallh);
 }
 
-int		colmcolor(int textx, int i, int wall, t_mapdata *map)
+int		colmcolor(int textx, int i, int wall, t_mpdt *map)
 {
 	int		texty;
 	int		disttop;
@@ -45,7 +45,7 @@ int		colmcolor(int textx, int i, int wall, t_mapdata *map)
 	return (0);
 }
 
-void	drawcolm(int col, double wallh, t_mapdata *map)
+void	drawcolm(int col, double wallh, t_mpdt *map)
 {
 	int i;
 	int	j;
@@ -58,11 +58,11 @@ void	drawcolm(int col, double wallh, t_mapdata *map)
 	i = ((HT / 2) - (wall / 2)) + JPINCR + JMPINCR;
 	j = ((HT / 2) + (wall / 2)) + JPINCR + JMPINCR;
 	if (g_hith == 1)
-		textx = (ft_fmod(WALLX, T_SIZE) * (check_vision_wh(map) / T_SIZE));
+		textx = (((int)WALLX % TL_SZE) * (check_vision_wh(map) / TL_SZE));
 	else
-		textx = (ft_fmod(WALLY, T_SIZE) * (check_vision_wh(map) / T_SIZE));
+		textx = (((int)WALLY % TL_SZE) * (check_vision_wh(map) / TL_SZE));
 	while (k++ < i)
-		g_img_data[k * WH + col] = g_CL;
+		g_img_data[k * WH + col] = g_cl;
 	while (i <= j && i < HT)
 	{
 		if (i >= 0 && i < HT && col >= 0 && col < WH)
@@ -70,10 +70,10 @@ void	drawcolm(int col, double wallh, t_mapdata *map)
 		i++;
 	}
 	while (++j < HT)
-		g_img_data[j * WH + col] = g_FL;
+		g_img_data[j * WH + col] = g_fl;
 }
 
-void	castrays(t_mapdata *map)
+void	castrays(t_mpdt *map)
 {
 	int		col;
 	double	rayangle;
@@ -88,11 +88,10 @@ void	castrays(t_mapdata *map)
 		rayangle += (M_PI / 3) / WH;
 		col++;
 	}
-	if (g_checksave == 0)
+	if (g_checksave == 1)
 	{
-		g_checksave = 1;
 		save_bmp(map);
+		ft_error("");
 	}
-	init_spt(map);
 	to_sprite(map, -1);
 }

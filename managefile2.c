@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage1.c                                          :+:      :+:    :+:   */
+/*   managefile2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:27 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/04 18:47:01 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/07 02:31:58 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-void	ft_east(t_mapdata *map, char *line)
+void	ft_east(t_mpdt *map, char *line)
 {
 	static int	i = -1;
 
@@ -29,7 +29,7 @@ void	ft_east(t_mapdata *map, char *line)
 	MCHECK++;
 }
 
-void	ft_sprite(t_mapdata *map, char *line)
+void	ft_sprite(t_mpdt *map, char *line)
 {
 	static int	i = -1;
 
@@ -45,7 +45,7 @@ void	ft_sprite(t_mapdata *map, char *line)
 	MCHECK++;
 }
 
-void	ft_floor(t_mapdata *map, char *line)
+void	ft_floor(t_mpdt *map, char *line)
 {
 	static int	i = 0;
 	static int	j = 0;
@@ -66,7 +66,7 @@ void	ft_floor(t_mapdata *map, char *line)
 		ft_error("not a valid color");
 }
 
-void	ft_ceeling(t_mapdata *map, char *line)
+void	ft_ceeling(t_mpdt *map, char *line)
 {
 	static int	i = 0;
 	static int	j = 0;
@@ -89,10 +89,11 @@ void	ft_ceeling(t_mapdata *map, char *line)
 
 void	ft_intro(int fd)
 {
-	t_mapdata	*map;
+	t_mpdt		*map;
+	int			i;
 
 	g_rows = 0;
-	if (!(map = malloc(sizeof(t_mapdata))))
+	if (!(map = malloc(sizeof(t_mpdt))))
 		ft_error("can't be allocated");
 	ft_lstadd_front(&g_mylist, ft_lstnew(map));
 	ft_init(map);
@@ -104,17 +105,10 @@ void	ft_intro(int fd)
 	ft_lstadd_front(&g_mylist, ft_lstnew(MAP0));
 	treatthatmap(map);
 	ft_lstadd_front(&g_mylist, ft_lstnew((MAP2D)));
-	if (ft_check_fc(F[0], F[1], F[2]))
-		ft_error("problem in the floor");
-	if (ft_check_fc(C[0], C[1], C[2]))
-		ft_error("problem in the ceiling");
+	ft_check_fc(F[0], F[1], F[2]);
+	ft_check_fc(C[0], C[1], C[2]);
 	ft_fill_fc(map);
-	int i = 0;
-	while (MAP2D[i])
-	{
-		printf("%s |\n", MAP2D[i]);
-		i++;
-	}
+	i = -1;
 	free(MAP0);
 	ft_drawmap(map);
 }

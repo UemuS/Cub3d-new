@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:26 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 03:45:08 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/07 00:02:54 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		ft_atoi(const char *str)
 	return (signe * result);
 }
 
-void	ft_init(t_mapdata *map)
+void	ft_init(t_mpdt *map)
 {
 	map->width = 0;
 	map->height = 0;
@@ -63,11 +63,10 @@ void	ft_init(t_mapdata *map)
 	map->jpincr = 0;
 	map->checkjmp = 0;
 	g_dec = 20;
-	g_checkdoor = 0;
 	g_count = 0;
 }
 
-void	ft_read(int fd, t_mapdata *map)
+void	ft_read(int fd, t_mpdt *map)
 {
 	char		*line;
 	int			ret;
@@ -95,7 +94,7 @@ void	ft_read(int fd, t_mapdata *map)
 	}
 }
 
-void	ft_fill_fc(t_mapdata *map)
+void	ft_fill_fc(t_mpdt *map)
 {
 	FL = ft_strjoin(FL, itoa_base(F[0], "0123456789abcdef"));
 	FL = ft_strjoin(FL, itoa_base(F[1], "0123456789abcdef"));
@@ -103,12 +102,11 @@ void	ft_fill_fc(t_mapdata *map)
 	CL = ft_strjoin(CL, itoa_base(C[0], "0123456789abcdef"));
 	CL = ft_strjoin(CL, itoa_base(C[1], "0123456789abcdef"));
 	CL = ft_strjoin(CL, itoa_base(C[2], "0123456789abcdef"));
-	g_FL = hex_to_dec(FL);
-	g_CL = hex_to_dec(CL);
-	printf("%d %d\n", g_FL, g_CL);
+	g_fl = hex_to_dec(FL);
+	g_cl = hex_to_dec(CL);
 }
 
-void	ft_matrix(t_mapdata *map, char *line)
+void	ft_matrix(t_mpdt *map, char *line)
 {
 	int		i;
 

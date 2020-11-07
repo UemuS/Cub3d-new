@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/05 14:38:28 by yihssan           #+#    #+#             */
+/*   Updated: 2020/11/07 01:31:51 by yihssan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lib.h"
 
-int		check_vision_ht(t_mapdata *map)
+int		check_vision_ht(t_mpdt *map)
 {
 	if (g_rayup && g_hith)
 		return (TXT_HT_NO);
@@ -13,7 +25,7 @@ int		check_vision_ht(t_mapdata *map)
 	return (0);
 }
 
-int		check_vision_wh(t_mapdata *map)
+int		check_vision_wh(t_mpdt *map)
 {
 	if (g_rayup && g_hith)
 		return (TXT_WH_NO);
@@ -28,7 +40,7 @@ int		check_vision_wh(t_mapdata *map)
 
 double	ft_fmod(double a, double b)
 {
-	return (a - (floor(a/b) * b));
+	return (a - (floor(a / b) * b));
 }
 
 double	normalangle(double *rayangle)

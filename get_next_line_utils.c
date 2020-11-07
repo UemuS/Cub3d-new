@@ -6,13 +6,13 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:13 by yihssan           #+#    #+#             */
-/*   Updated: 2020/10/16 23:31:10 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/05 13:55:47 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-char		*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*new;
 	int		i;
@@ -55,7 +55,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-char		*ft_strchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
 	int i;
 	int slen;
@@ -73,7 +73,7 @@ char		*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-size_t		ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
 	size_t i;
 
@@ -83,7 +83,7 @@ size_t		ft_strlen(const char *s)
 	return (i);
 }
 
-char		*ft_strdup(const char *s1)
+char	*ft_strdup(const char *s1)
 {
 	size_t	i;
 	char	*s2;

@@ -6,20 +6,20 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 02:49:29 by hmahjour          #+#    #+#             */
-/*   Updated: 2020/10/16 17:51:22 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/07 01:49:38 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-int		iswall(double x, double y, t_mapdata *map)
+int		iswall(double x, double y, t_mpdt *map)
 {
 	int		mapy;
 	int		mapx;
 	double	dis;
 
-	mapy = floor(y / (double)T_SIZE);
-	mapx = floor(x / (double)T_SIZE);
+	mapy = floor(y / (double)TL_SZE);
+	mapx = floor(x / (double)TL_SZE);
 	dis = ((y - PY) * (y - PY) + (x - PX) * (x - PX));
 	if (mapx >= 0 && mapx < g_case && mapy >= 0 && mapy < g_rows)
 	{
@@ -36,22 +36,22 @@ int		inwin(double x, double y)
 	float h;
 	float k;
 
-	h = g_case * T_SIZE;
-	k = g_rows * T_SIZE;
+	h = g_case * TL_SZE;
+	k = g_rows * TL_SZE;
 	return (((x >= 0) && (x <= h)) && ((y >= 0) && (y <= k)));
 }
 
-double	hinter(t_mapdata *map, double rayangle)
+double	hinter(t_mpdt *map, double rayangle)
 {
 	double	ax;
 	double	ay;
 	double	xstep;
 	double	ystep;
 
-	ay = floor(PY / T_SIZE) * T_SIZE + (g_raydown ? T_SIZE : 0.001);
+	ay = floor(PY / TL_SZE) * TL_SZE + (g_raydown ? TL_SZE : 0.001);
 	ax = PX + ((ay - PY) / tan(rayangle));
-	ystep = T_SIZE * (g_rayup ? -1 : 1);
-	xstep = T_SIZE / tan(rayangle);
+	ystep = TL_SZE * (g_rayup ? -1 : 1);
+	xstep = TL_SZE / tan(rayangle);
 	xstep *= (g_rayleft && xstep > 0) || (g_rayright && xstep < 0) ? -1 : 1;
 	while (inwin(ax, ay))
 	{
@@ -70,17 +70,17 @@ double	hinter(t_mapdata *map, double rayangle)
 	return (sqrtf((ay - PY) * (ay - PY) + (ax - PX) * (ax - PX)));
 }
 
-double	vinter(t_mapdata *map, double rayangle)
+double	vinter(t_mpdt *map, double rayangle)
 {
 	double	ax;
 	double	ay;
 	double	xstep;
 	double	ystep;
 
-	ax = floor(PX / T_SIZE) * T_SIZE + (g_rayright ? T_SIZE : 0.001);
+	ax = floor(PX / TL_SZE) * TL_SZE + (g_rayright ? TL_SZE : 0.001);
 	ay = PY + ((ax - PX) * tan(rayangle));
-	xstep = T_SIZE * (g_rayleft ? -1 : 1);
-	ystep = T_SIZE * tan(rayangle);
+	xstep = TL_SZE * (g_rayleft ? -1 : 1);
+	ystep = TL_SZE * tan(rayangle);
 	ystep *= (g_rayup && (ystep > 0)) || (g_raydown && (ystep < 0)) ? -1 : 1;
 	while (inwin(ax, ay))
 	{
@@ -99,7 +99,7 @@ double	vinter(t_mapdata *map, double rayangle)
 	return (sqrtf((ay - PY) * (ay - PY) + (ax - PX) * (ax - PX)));
 }
 
-double	colmdist(t_mapdata *map, double rayangle)
+double	colmdist(t_mpdt *map, double rayangle)
 {
 	double dist;
 	double hdist;
