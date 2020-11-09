@@ -6,11 +6,22 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:59 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/07 00:05:13 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/08 01:27:30 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
+
+int		ft_strlast(char *s1, char *s2)
+{
+	int i;
+
+	i = 0;
+	while (++i < 4)
+		if (s1[ft_strlen(s1) - i] != s2[4 - i])
+			return (1);
+	return (0);
+}
 
 void	ft_drawmap(t_mpdt *map)
 {
@@ -19,6 +30,7 @@ void	ft_drawmap(t_mpdt *map)
 	g_mlx_win = mlx_new_window(g_mlx_ptr, WH, HT, "");
 	mlx_hook(g_mlx_win, 2, 0, deal_key, map);
 	mlx_hook(g_mlx_win, 3, 0, release_key, map);
+	mlx_hook(g_mlx_win, 17, 0, ft_error, map);
 	mlx_loop_hook(g_mlx_ptr, draw, map);
 	mlx_loop(g_mlx_ptr);
 }
@@ -41,19 +53,20 @@ int		main(int argc, char **argv)
 
 	g_mylist = ft_lstnew(0);
 	g_checksave = 0;
-	if (argc == 2 && !ft_strncmp(argv[1], "map.cub", 8))
+	if (argc == 2 && !ft_strlast(argv[1], ".cub"))
 	{
 		fd = open(argv[1], O_RDONLY);
-		ft_intro(fd);
+		if (fd >= 0)
+			ft_intro(fd);
 	}
-	if (argc == 3 && !ft_strncmp(argv[1], "map.cub", 8)
+	if (argc == 3 && !ft_strlast(argv[1], ".cub")
 		&& !ft_strncmp(argv[2], "--save", 7))
 	{
 		g_checksave = 1;
 		fd = open(argv[1], O_RDONLY);
-		ft_intro(fd);
+		if (fd >= 0)
+			ft_intro(fd);
 	}
-	else
-		ft_error("wrong number of arguments or arguments names");
+	ft_error("wrong number of arguments or arguments names");
 	ft_lstclear(&g_mylist);
 }

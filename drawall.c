@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 22:10:22 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/07 01:57:53 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/07 22:58:18 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	drawcolm(int col, double wallh, t_mpdt *map)
 	i = ((HT / 2) - (wall / 2)) + JPINCR + JMPINCR;
 	j = ((HT / 2) + (wall / 2)) + JPINCR + JMPINCR;
 	if (g_hith == 1)
-		textx = (((int)WALLX % TL_SZE) * (check_vision_wh(map) / TL_SZE));
+		textx = (fmod(WALLX, TL_SZE) * (check_vision_wh(map) / TL_SZE));
 	else
-		textx = (((int)WALLY % TL_SZE) * (check_vision_wh(map) / TL_SZE));
+		textx = (fmod(WALLY, TL_SZE) * (check_vision_wh(map) / TL_SZE));
 	while (k++ < i)
 		g_img_data[k * WH + col] = g_cl;
 	while (i <= j && i < HT)
@@ -88,10 +88,10 @@ void	castrays(t_mpdt *map)
 		rayangle += (M_PI / 3) / WH;
 		col++;
 	}
+	to_sprite(map, -1);
 	if (g_checksave == 1)
 	{
 		save_bmp(map);
 		ft_error("");
 	}
-	to_sprite(map, -1);
 }

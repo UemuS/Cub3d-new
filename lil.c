@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:51 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/04 18:46:13 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/08 00:29:46 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		ft_isdigit(int c)
 	return (0);
 }
 
-void	ft_error(char *s)
+int		ft_error(char *s)
 {
 	int i;
 

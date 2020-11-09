@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 02:49:29 by hmahjour          #+#    #+#             */
-/*   Updated: 2020/11/07 01:49:38 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/08 00:00:55 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,8 @@ int		iswall(double x, double y, t_mpdt *map)
 	mapx = floor(x / (double)TL_SZE);
 	dis = ((y - PY) * (y - PY) + (x - PX) * (x - PX));
 	if (mapx >= 0 && mapx < g_case && mapy >= 0 && mapy < g_rows)
-	{
-		if (MAP2D[mapy][mapx] == '3' && dis < 64)
-			MAP2D[mapy][mapx] = '0';
 		if (MAP2D[mapy][mapx] == '1' || MAP2D[mapy][mapx] == '3')
 			return (1);
-	}
 	return (0);
 }
 

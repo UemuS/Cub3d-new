@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 14:44:07 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/07 02:31:40 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/09 14:50:21 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	draw_sprite(t_mpdt *map, int id)
 		j = -1;
 		while (++j < size)
 		{
+			if (SPRITES[id].y_off + j < 0 || SPRITES[id].y_off + j > HT)
+				continue ;
 			c = SPRITES->sdata[(int)((TL_SZE) *
 					(TL_SZE * j / (int)size) + (TL_SZE * i / (int)size))];
 			if (c != SPRITES->sdata[0] && j + 1 <= size && i + 1 <= size)
@@ -90,8 +92,7 @@ void	to_sprite(t_mpdt *map, int m)
 			SPRITES[k].size = (HT / SPRITES[k].dist) * TL_SZE;
 		else
 			SPRITES[k].size = (WH / SPRITES[k].dist) * TL_SZE;
-		SPRITES[k].y_off = HT / 2 - (int)SPRITES[k].size / 2
-		+ JPINCR + JMPINCR;
+		SPRITES[k].y_off = HT / 2 - (int)SPRITES[k].size / 2;
 		SPRITES[k].x_off = ((DEG(angle) - DEG(RT)) * WH)
 			/ (float)TL_SZE + ((WH / 2) - (int)SPRITES[k].size / 2);
 		draw_sprite(map, k);

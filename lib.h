@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:33 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/07 01:29:12 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/08 00:29:54 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ typedef struct		s_bmp_file
 # define DEG(x) ((180 / M_PI) * x)
 
 void				ft_init(t_mpdt *map);
-void				ft_error(char *s);
+int					ft_error(char *s);
 void				ft_intro(int fd);
 void				ft_readno(int fd, t_mpdt *map);
 void				ft_north(t_mpdt *map, char *line);

@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:35 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/07 02:31:36 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/08 00:01:57 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int		draw(t_mpdt *map)
 	int	bpp;
 	int	size_line;
 	int	endian;
-	int us;
-	int ad;
 
 	g_img_ptr = mlx_new_image(g_mlx_ptr, WH, HT);
 	g_img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
@@ -42,18 +40,12 @@ int		draw(t_mpdt *map)
 	XPM_SO = mlx_xpm_file_to_image(g_mlx_ptr, SO, &TXT_WH_SO, &TXT_HT_SO);
 	XPM_EA = mlx_xpm_file_to_image(g_mlx_ptr, EA, &TXT_WH_EA, &TXT_HT_EA);
 	XPM_WE = mlx_xpm_file_to_image(g_mlx_ptr, WE, &TXT_WH_WE, &TXT_HT_WE);
-	XPM_VIS = mlx_xpm_file_to_image(g_mlx_ptr, "texture/weap.xpm", &us, &us);
-	XPM_FL = mlx_xpm_file_to_image(g_mlx_ptr, "texture/vis.xpm", &ad, &ad);
 	TXT_BUF_NO = (int *)mlx_get_data_addr(XPM_NO, &bpp, &size_line, &endian);
 	TXT_BUF_SO = (int *)mlx_get_data_addr(XPM_SO, &bpp, &size_line, &endian);
 	TXT_BUF_EA = (int *)mlx_get_data_addr(XPM_EA, &bpp, &size_line, &endian);
 	TXT_BUF_WE = (int *)mlx_get_data_addr(XPM_WE, &bpp, &size_line, &endian);
-	TXT_BUF_VIS = (int *)mlx_get_data_addr(XPM_VIS, &bpp, &size_line, &endian);
-	TXT_BUF_FL = (int *)mlx_get_data_addr(XPM_FL, &bpp, &size_line, &endian);
 	ft_helpdrawasquare(map);
 	mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_img_ptr, 0, 0);
-	mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, XPM_VIS, WH / 2, HT - 200);
-	mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, XPM_FL, WH / 2 - 50, HT / 2);
 	return (0);
 }
 
@@ -80,7 +72,6 @@ void	ft_draw_player(t_mpdt *map)
 	if (x != '1' && x != '2')
 		if (x1 != '1' && x1 != '2')
 			PX = PX + (WD * cos(RT) * 4) + (SD * cos(RT + 90 * M_PI / 180) * 2);
-	ft_jmp(map);
 	castrays(map);
 }
 
