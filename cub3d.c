@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:26 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/07 00:02:54 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/30 16:35:10 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,21 +74,21 @@ void	ft_read(int fd, t_mpdt *map)
 	while (1)
 	{
 		ret = get_next_line(fd, &line);
-		if (line[0] == 'R' && line[1] == ' ' && (MCHECK++ || 1))
-			ft_fetch(line, &HT, &WH, map);
 		if (MCHECK < 8 && ft_strtrim(line, " ")[0] == '1')
+		{
+			free(line);
 			ft_error("an element is missing or map isn't last in the file");
+		}
 		if (MCHECK == 8)
 			if (helpread(line, map, ret))
 				continue;
-		(line[0] == 'N' && line[1] == 'O') ? ft_north(map, line) : 0;
-		(line[0] == 'S' && line[1] == 'O') ? ft_south(map, line) : 0;
-		(line[0] == 'W' && line[1] == 'E') ? ft_west(map, line) : 0;
-		(line[0] == 'E' && line[1] == 'A') ? ft_east(map, line) : 0;
-		(line[0] == 'S' && line[1] == ' ') ? ft_sprite(map, line) : 0;
-		(line[0] == 'F' && line[1] == ' ') ? ft_floor(map, line) : 0;
-		(line[0] == 'C' && line[1] == ' ') ? ft_ceeling(map, line) : 0;
-		free(line);
+		if (MCHECK < 8)
+			ft_before_map(map, line);
+		if (MCHECK == 8 && ret == 0 && g_cac == 0)
+		{
+			free(line);
+			ft_error("no map");
+		}
 		if (ret == 0)
 			break ;
 	}
@@ -108,9 +108,6 @@ void	ft_fill_fc(t_mpdt *map)
 
 void	ft_matrix(t_mpdt *map, char *line)
 {
-	int		i;
-
-	i = 0;
 	if (!MAP0)
 		MAP0 = ft_strdup("");
 	MAP0 = ft_strjoin(MAP0, line);

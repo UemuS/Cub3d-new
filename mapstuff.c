@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:38 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/05 17:43:19 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/30 14:34:22 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,34 @@ void	continuetreatingthatmap(t_mpdt *map)
 				g_count += (MAP2D[i][j] == '2') ? 1 : 0;
 				if (MAP2D[i][j] == '0')
 					ft_cw_er(map, i, j);
+				if (MAP2D[i][j] == 'N' || MAP2D[i][j] == 'S'
+				|| MAP2D[i][j] == 'E' || MAP2D[i][j] == 'W')
+					ft_cw_er(map, i, j);
 			}
 	}
 }
 
 int		helpread(char *line, t_mpdt *map, int r)
 {
-	static int	loli = 0;
-
-	if (line[0] == '\0' && loli == 0)
+	if (line[0] == '\0' && g_cac == 0)
 	{
 		free(line);
 		return (1);
 	}
-	if (line[0] == '\0' && loli == 1 && r != 0)
+	if (line[0] == '\0' && g_cac == 1 && r != 0)
 	{
 		free(line);
 		ft_error("empty line");
 	}
 	else if (ft_strtrim(line, " ")[0] == '1')
 	{
-		loli = 1;
+		g_cac = 1;
 		ft_matrix(map, line);
 	}
-	else if (ft_strtrim(line, " ")[0] == '0')
+	else if (ft_strtrim(line, " ")[0] != '1' && line[0] != '\0')
 	{
 		free(line);
-		ft_error("line starts with zero");
+		ft_error("line doesn't start with wall");
 	}
 	return (0);
 }

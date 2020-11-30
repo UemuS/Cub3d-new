@@ -6,7 +6,7 @@
 #    By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/05 17:57:14 by yihssan           #+#    #+#              #
-#    Updated: 2020/11/09 14:44:37 by yihssan          ###   ########.fr        #
+#    Updated: 2020/11/30 16:10:52 by yihssan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,13 +34,13 @@ $(NAME)	:
 		gcc -Wextra -Wall -Werror -c $(SRC)
 		ar -rc lib.a *.o
 		ranlib lib.a
-		gcc lib.a -lmlx -g -framework OpenGL -framework appkit -fsanitize=address -o cub3D
+		gcc lib.a -lmlx -g -framework OpenGL -framework appkit -o cub3D
 
 bonus:
 	gcc -Wextra -Wall -Werror -c $(SRCB)
 	ar -rc lib.a *.o
 	ranlib lib.a
-	gcc lib.a -lmlx -g -framework OpenGL -framework appkit -fsanitize=address -o cub3D
+	gcc lib.a -lmlx -g -framework OpenGL -framework appkit -o cub3D
 		
 clean:
 	rm -f *.o

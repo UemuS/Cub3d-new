@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:13 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/05 13:55:47 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/30 16:51:42 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	j = 0;
 	if (!s1 || !s2)
-		return (ft_strdup(s2));
+		return (s2);
 	if (!(new = malloc(ft_strlen(s1) + ft_strlen(s2) + 1)))
 		return (0);
 	while (s1[i] != '\0')
@@ -33,6 +33,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		new[i++] = s2[j++];
 	new[i] = '\0';
 	free(s1);
+	free(s2);
 	return (new);
 }
 

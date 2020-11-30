@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   startdrawing.c                                     :+:      :+:    :+:   */
+/*   startdrawing_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:35 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/07 22:25:05 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/30 20:22:48 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int		draw(t_mpdt *map)
 	int	endian;
 	int us;
 	int ad;
+	static int ac = 0;
 
+	if (ac == 0)
+	{
 	g_img_ptr = mlx_new_image(g_mlx_ptr, WH, HT);
 	g_img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
 	XPM_NO = mlx_xpm_file_to_image(g_mlx_ptr, NO, &TXT_WH_NO, &TXT_HT_NO);
@@ -50,6 +53,11 @@ int		draw(t_mpdt *map)
 	TXT_BUF_WE = (int *)mlx_get_data_addr(XPM_WE, &bpp, &size_line, &endian);
 	TXT_BUF_VIS = (int *)mlx_get_data_addr(XPM_VIS, &bpp, &size_line, &endian);
 	TXT_BUF_FL = (int *)mlx_get_data_addr(XPM_FL, &bpp, &size_line, &endian);
+	init_spt(map);
+	RAYDIST = malloc(sizeof(int *) * WH);
+	ft_lstadd_front(&g_mylist, ft_lstnew(RAYDIST));
+	ac = 1;
+	}
 	ft_helpdrawasquare(map);
 	mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_img_ptr, 0, 0);
 	mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, XPM_VIS, WH / 2, HT - 200);
@@ -101,4 +109,31 @@ void	ft_check_stuff(int y, int x, t_mpdt *map)
 		if (MAP2D[y][x] == 'W')
 			RT = (180 * (M_PI / 180));
 	}
+}
+
+int		ft_before_map(t_mpdt *map, char *line)
+{
+	if (line[0] == 'N' && line[1] == 'O')
+		ft_north(map, line);
+	else if (line[0] == 'R' && line[1] == ' ' && (MCHECK++ || 1))
+		ft_fetch(line, &HT, &WH, map);
+	else if (line[0] == 'S' && line[1] == 'O')
+		ft_south(map, line);
+	else if (line[0] == 'W' && line[1] == 'E')
+		ft_west(map, line);
+	else if (line[0] == 'E' && line[1] == 'A')
+		ft_east(map, line);
+	else if (line[0] == 'S' && line[1] == ' ')
+		ft_sprite(map, line);
+	else if (line[0] == 'F' && line[1] == ' ')
+		ft_floor(map, line);
+	else if (line[0] == 'C' && line[1] == ' ')
+		ft_ceeling(map, line);
+	else if (line[0] != '\0')
+	{
+		free(line);
+		ft_error("unwanted element");
+	}
+	free(line);
+	return (0);
 }

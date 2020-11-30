@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils3.c                                           :+:      :+:    :+:   */
+/*   utils3_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:23:27 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/06 22:54:48 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/30 12:25:26 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,22 @@ void	ft_jmp(t_mpdt *map)
 
 int		deal_key(int key, t_mpdt *map)
 {
-	if (key == 123)
-		TD = -1;
-	if (key == 124)
-		TD = 1;
-	if (key == 13)
-		WD = 1;
 	if (key == 0)
 		SD = -1;
 	if (key == 2)
 		SD = 1;
+	if (key == 13)
+		WD = 1;
+	if (key == 123)
+		TD = -1;
+	if (key == 124)
+		TD = 1;
 	if (key == 1)
 		WD = -1;
 	if (key == 53)
 	{
 		mlx_destroy_window(g_mlx_ptr, g_mlx_win);
-		ft_error("");
+		ft_error("Bye");
 	}
 	if (key == 126)
 		JP = 1;
@@ -69,16 +69,16 @@ int		deal_key(int key, t_mpdt *map)
 
 int		release_key(int key, t_mpdt *map)
 {
-	if (key == 123)
-		TD = 0;
-	if (key == 124)
-		TD = 0;
-	if (key == 13)
-		WD = 0;
 	if (key == 0)
 		SD = 0;
 	if (key == 2)
 		SD = 0;
+	if (key == 13)
+		WD = 0;
+	if (key == 123)
+		TD = 0;
+	if (key == 124)
+		TD = 0;
 	if (key == 1)
 		WD = 0;
 	if (key == 126)

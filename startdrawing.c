@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:35 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/08 00:01:57 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/30 20:08:20 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,13 @@ void	ft_drawall(t_mpdt *map)
 
 int		draw(t_mpdt *map)
 {
-	int	bpp;
-	int	size_line;
-	int	endian;
+	static int ca = 0;
 
-	g_img_ptr = mlx_new_image(g_mlx_ptr, WH, HT);
-	g_img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
-	XPM_NO = mlx_xpm_file_to_image(g_mlx_ptr, NO, &TXT_WH_NO, &TXT_HT_NO);
-	XPM_SO = mlx_xpm_file_to_image(g_mlx_ptr, SO, &TXT_WH_SO, &TXT_HT_SO);
-	XPM_EA = mlx_xpm_file_to_image(g_mlx_ptr, EA, &TXT_WH_EA, &TXT_HT_EA);
-	XPM_WE = mlx_xpm_file_to_image(g_mlx_ptr, WE, &TXT_WH_WE, &TXT_HT_WE);
-	TXT_BUF_NO = (int *)mlx_get_data_addr(XPM_NO, &bpp, &size_line, &endian);
-	TXT_BUF_SO = (int *)mlx_get_data_addr(XPM_SO, &bpp, &size_line, &endian);
-	TXT_BUF_EA = (int *)mlx_get_data_addr(XPM_EA, &bpp, &size_line, &endian);
-	TXT_BUF_WE = (int *)mlx_get_data_addr(XPM_WE, &bpp, &size_line, &endian);
+	if (ca == 0)
+	{
+		ft_ayaya(map);
+		ca = 1;
+	}
 	ft_helpdrawasquare(map);
 	mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_img_ptr, 0, 0);
 	return (0);
@@ -92,4 +85,31 @@ void	ft_check_stuff(int y, int x, t_mpdt *map)
 		if (MAP2D[y][x] == 'W')
 			RT = (180 * (M_PI / 180));
 	}
+}
+
+int		ft_before_map(t_mpdt *map, char *line)
+{
+	if (line[0] == 'N' && line[1] == 'O')
+		ft_north(map, line);
+	else if (line[0] == 'R' && line[1] == ' ' && (MCHECK++ || 1))
+		ft_fetch(line, &HT, &WH, map);
+	else if (line[0] == 'S' && line[1] == 'O')
+		ft_south(map, line);
+	else if (line[0] == 'W' && line[1] == 'E')
+		ft_west(map, line);
+	else if (line[0] == 'E' && line[1] == 'A')
+		ft_east(map, line);
+	else if (line[0] == 'S' && line[1] == ' ')
+		ft_sprite(map, line);
+	else if (line[0] == 'F' && line[1] == ' ')
+		ft_floor(map, line);
+	else if (line[0] == 'C' && line[1] == ' ')
+		ft_ceeling(map, line);
+	else if (line[0] != '\0')
+	{
+		free(line);
+		ft_error("unwanted element");
+	}
+	free(line);
+	return (0);
 }

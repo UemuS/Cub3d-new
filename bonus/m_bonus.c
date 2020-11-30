@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:59 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/08 01:25:31 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/30 12:47:18 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		main(int argc, char **argv)
 {
 	int fd;
 
+	g_cac = 0;
 	g_mylist = ft_lstnew(0);
 	g_checksave = 0;
 	if (argc == 2 && !ft_strlast(argv[1], ".cub"))

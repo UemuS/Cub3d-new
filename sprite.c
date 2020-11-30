@@ -6,11 +6,19 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 14:44:07 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/09 14:50:21 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/30 20:21:18 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
+
+int		ft_just_do(t_mpdt *map, int id, int i)
+{
+	if ((SPRITES[id].x_off + i < 0 || SPRITES[id].x_off + i > WH)
+		|| RAYDIST[(int)(SPRITES[id].x_off + i)] <= SPRITES[id].dist)
+		return (1);
+	return (0);
+}
 
 void	draw_sprite(t_mpdt *map, int id)
 {
@@ -23,9 +31,7 @@ void	draw_sprite(t_mpdt *map, int id)
 	size = SPRITES[id].size;
 	while (++i < size)
 	{
-		if (SPRITES[id].x_off + i < 0 || SPRITES[id].x_off + i > WH)
-			continue ;
-		if (RAYDIST[(int)(SPRITES[id].x_off + i)] <= SPRITES[id].dist)
+		if (ft_just_do(map, id, i))
 			continue ;
 		j = -1;
 		while (++j < size)
@@ -36,7 +42,7 @@ void	draw_sprite(t_mpdt *map, int id)
 					(TL_SZE * j / (int)size) + (TL_SZE * i / (int)size))];
 			if (c != SPRITES->sdata[0] && j + 1 <= size && i + 1 <= size)
 				if ((int)((j + SPRITES[id].y_off)
-				* WH + (i + SPRITES[id].x_off)) < WH * HT)
+					* WH + (i + SPRITES[id].x_off)) < WH * HT)
 					g_img_data[(int)((j + SPRITES[id].y_off) *
 					WH + (i + SPRITES[id].x_off))] = c;
 		}
@@ -97,15 +103,6 @@ void	to_sprite(t_mpdt *map, int m)
 			/ (float)TL_SZE + ((WH / 2) - (int)SPRITES[k].size / 2);
 		draw_sprite(map, k);
 	}
-}
-
-void	ft_helpdrawasquare(t_mpdt *map)
-{
-	init_spt(map);
-	RAYDIST = malloc(sizeof(int *) * WH);
-	ft_lstadd_front(&g_mylist, ft_lstnew(RAYDIST));
-	ft_drawall(map);
-	ft_draw_player(map);
 }
 
 void	init_spt(t_mpdt *map)

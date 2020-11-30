@@ -6,11 +6,17 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 22:10:22 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/07 22:58:18 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/11/30 19:53:38 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
+
+void	ft_helpdrawasquare(t_mpdt *map)
+{
+	ft_drawall(map);
+	ft_draw_player(map);
+}
 
 double	wallheight(double rayangle, t_mpdt *map, int col)
 {
