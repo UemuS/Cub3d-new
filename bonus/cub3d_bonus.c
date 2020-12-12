@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:26 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/30 16:08:17 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/12 17:49:56 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void	ft_fill_fc(t_mpdt *map)
 	CL = ft_strjoin(CL, itoa_base(C[2], "0123456789abcdef"));
 	g_fl = hex_to_dec(FL);
 	g_cl = hex_to_dec(CL);
-	
 }
 
 void	ft_matrix(t_mpdt *map, char *line)

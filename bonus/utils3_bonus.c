@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:23:27 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/30 12:25:26 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/12 18:48:02 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ void	ft_jmp(t_mpdt *map)
 	if (JMP == 1 && CHCJMP == 0)
 	{
 		if (JMPINCR < 100)
-			JMPINCR += 20;
+			JMPINCR += 10;
 		if (JMPINCR == 100)
 			CHCJMP = 1;
 	}
 	if (JMP == 0 || CHCJMP == 1)
 	{
 		if (JMPINCR > 0)
-			JMPINCR -= 20;
+			JMPINCR -= 10;
 		if (JMPINCR <= 0)
 			CHCJMP = 0;
 	}

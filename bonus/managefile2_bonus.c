@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   managefile2.c                                      :+:      :+:    :+:   */
+/*   managefile2_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:27 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/07 02:31:58 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/12 18:46:04 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,11 @@ void	ft_floor(t_mpdt *map, char *line)
 			F[j] = ft_atoi(line + i);
 			i += ft_intlen(F[j] + 1);
 			j++;
+			(j <= 2 && line[i] != ',' ? ft_error("unwanted element") : 0);
 		}
+		if (line[i] == ',')
+			if (!ft_isdigit(line[i - 1]) || !ft_isdigit(line[i + 1]))
+				ft_error("unwanted element in floor");
 	}
 	if (j != 3)
 		ft_error("not a valid color");
@@ -82,6 +86,9 @@ void	ft_ceeling(t_mpdt *map, char *line)
 			i += ft_intlen(C[j] + 1);
 			j++;
 		}
+		if (line[i] == ',')
+			if (!ft_isdigit(line[i - 1]) || !ft_isdigit(line[i + 1]))
+				ft_error("unwanted element in ceiling");
 	}
 	if (j != 3)
 		ft_error("not a valid color");

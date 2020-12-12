@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:35 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/30 20:22:48 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/12 17:46:46 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,12 @@ void	ft_drawall(t_mpdt *map)
 
 int		draw(t_mpdt *map)
 {
-	int	bpp;
-	int	size_line;
-	int	endian;
-	int us;
-	int ad;
 	static int ac = 0;
 
 	if (ac == 0)
 	{
-	g_img_ptr = mlx_new_image(g_mlx_ptr, WH, HT);
-	g_img_data = (int *)mlx_get_data_addr(g_img_ptr, &bpp, &size_line, &endian);
-	XPM_NO = mlx_xpm_file_to_image(g_mlx_ptr, NO, &TXT_WH_NO, &TXT_HT_NO);
-	XPM_SO = mlx_xpm_file_to_image(g_mlx_ptr, SO, &TXT_WH_SO, &TXT_HT_SO);
-	XPM_EA = mlx_xpm_file_to_image(g_mlx_ptr, EA, &TXT_WH_EA, &TXT_HT_EA);
-	XPM_WE = mlx_xpm_file_to_image(g_mlx_ptr, WE, &TXT_WH_WE, &TXT_HT_WE);
-	XPM_VIS = mlx_xpm_file_to_image(g_mlx_ptr, "texture/weap.xpm", &us, &us);
-	XPM_FL = mlx_xpm_file_to_image(g_mlx_ptr, "texture/vis.xpm", &ad, &ad);
-	TXT_BUF_NO = (int *)mlx_get_data_addr(XPM_NO, &bpp, &size_line, &endian);
-	TXT_BUF_SO = (int *)mlx_get_data_addr(XPM_SO, &bpp, &size_line, &endian);
-	TXT_BUF_EA = (int *)mlx_get_data_addr(XPM_EA, &bpp, &size_line, &endian);
-	TXT_BUF_WE = (int *)mlx_get_data_addr(XPM_WE, &bpp, &size_line, &endian);
-	TXT_BUF_VIS = (int *)mlx_get_data_addr(XPM_VIS, &bpp, &size_line, &endian);
-	TXT_BUF_FL = (int *)mlx_get_data_addr(XPM_FL, &bpp, &size_line, &endian);
-	init_spt(map);
-	RAYDIST = malloc(sizeof(int *) * WH);
-	ft_lstadd_front(&g_mylist, ft_lstnew(RAYDIST));
-	ac = 1;
+		ft_ayaya(map);
+		ac = 1;
 	}
 	ft_helpdrawasquare(map);
 	mlx_put_image_to_window(g_mlx_ptr, g_mlx_win, g_img_ptr, 0, 0);
