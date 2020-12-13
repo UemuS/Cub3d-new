@@ -6,7 +6,7 @@
 #    By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/05 17:57:14 by yihssan           #+#    #+#              #
-#    Updated: 2020/12/13 00:05:52 by yihssan          ###   ########.fr        #
+#    Updated: 2020/12/13 05:04:10 by yihssan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRCB = bonus/m_bonus.c bonus/cub3d_bonus.c bonus/drawall_bonus.c bonus/screensho
 					bonus/utils_bonus.c bonus/utils2_bonus.c bonus/utils3_bonus.c \
 
 NAME = lib.a
-
+NAMEB = lib_bonus.a
 all:			$(NAME)
 
 $(NAME)	:
@@ -36,17 +36,20 @@ $(NAME)	:
 		ranlib lib.a
 		gcc lib.a -lmlx -g -framework OpenGL -framework appkit -o cub3D
 
-bonus: fclean
+bonus: 			$(NAMEB)
+
+$(NAMEB) :
+	rm -f *.o
 	gcc -Wextra -Wall -Werror -c $(SRCB)
-	ar -rc lib.a *.o
-	ranlib lib.a
-	gcc lib.a -lmlx -g -framework OpenGL -framework appkit -o cub3D
+	ar -rc $(NAMEB) *.o
+	ranlib $(NAMEB)
+	gcc $(NAMEB) -lmlx -g -framework OpenGL -framework appkit -o cub3D
 		
 clean:
 	rm -f *.o
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(NAMEB) cub3D
 
 re: fclean all
 

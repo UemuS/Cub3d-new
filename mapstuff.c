@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:38 by yihssan           #+#    #+#             */
-/*   Updated: 2020/12/12 20:41:25 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/13 05:16:09 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,5 @@ int		ft_check_fc(int i, int j, int k)
 {
 	if (i > 255 || i < 0 || j > 255 || j < 0 || k > 255 || k < 0)
 		ft_error("problem in the ceiling");
-	return (1);
+	return (0);
 }

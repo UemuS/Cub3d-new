@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:35 by yihssan           #+#    #+#             */
-/*   Updated: 2020/12/13 01:17:11 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/13 05:16:22 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ void	ft_draw_player(t_mpdt *map)
 		RT += 2 * M_PI;
 	RT = RT + (TD * 0.05);
 	if (y != '1' && y != '2' && y != '3')
-		if (y1 != '1' && y1 != '2' && y != '3')
+		if (y1 != '1' && y1 != '2' && y1 != '3')
 			PY = PY + (WD * sin(RT) * 4) + (SD * sin(RT + 90 * M_PI / 180) * 2);
 	if (x != '1' && x != '2' && x != '3')
-		if (x1 != '1' && x1 != '2' && x != '3')
+		if (x1 != '1' && x1 != '2' && x1 != '3')
 			PX = PX + (WD * cos(RT) * 4) + (SD * cos(RT + 90 * M_PI / 180) * 2);
 	castrays(map);
 }
@@ -89,6 +89,7 @@ void	ft_check_stuff(int y, int x, t_mpdt *map)
 
 int		ft_before_map(t_mpdt *map, char *line)
 {
+	printf("|%s|\n", line);
 	if (line[0] == 'N' && line[1] == 'O')
 		ft_north(map, line);
 	else if (line[0] == 'R' && line[1] == ' ' && (MCHECK++ || 1))
