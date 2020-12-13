@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 22:10:22 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/30 20:22:46 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/13 04:15:05 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,6 @@ void	castrays(t_mpdt *map)
 	if (g_checksave == 1)
 	{
 		save_bmp(map);
-		ft_error("");
+		ft_quit();
 	}
 }
