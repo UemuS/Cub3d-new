@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:51 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/08 00:29:46 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/12 23:54:06 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,15 @@ int		ft_error(char *s)
 {
 	int i;
 
-	i = -1;
-	while (s[++i] != '\0')
+	i = 0;
+	write(1, "Error\n", 7);
+	while (s[i] != '\0' && s[i] > 31 && s[i] < 127)
+	{
 		write(1, s + i, 1);
-	write(1, "\n", 2);
+		i++;
+	}
+	if (i != 0)
+		write(1, "\n", 2);
 	exit(EXIT_FAILURE);
 }
 

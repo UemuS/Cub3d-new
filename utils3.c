@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:23:27 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/30 12:23:54 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/13 00:15:12 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		deal_key(int key, t_mpdt *map)
 	if (key == 53)
 	{
 		mlx_destroy_window(g_mlx_ptr, g_mlx_win);
-		ft_error("Bye");
+		ft_quit();
 	}
 	if (key == 126)
 		JP = 1;
@@ -88,4 +88,9 @@ int		release_key(int key, t_mpdt *map)
 	if (key == 49)
 		JMP = 0;
 	return (0);
+}
+
+int		ft_quit(void)
+{
+	exit(0);
 }

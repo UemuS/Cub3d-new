@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:33:35 by yihssan           #+#    #+#             */
-/*   Updated: 2020/12/12 18:56:58 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/13 01:17:11 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ void	ft_draw_player(t_mpdt *map)
 	int x1;
 	int y1;
 
-	y = MAP2D[(int)(PY + (WD * sin(RT) * 8)) / (TL_SZE)][(int)PX / (TL_SZE)];
+	y = MAP2D[(int)(PY + (WD * sin(RT) * 10)) / (TL_SZE)][(int)PX / (TL_SZE)];
 	y1 = MAP2D[(int)(PY + (SD * sin(RT + 90 * M_PI / 180) * 8))
 	/ (TL_SZE)][(int)PX / (TL_SZE)];
-	x = MAP2D[(int)PY / (TL_SZE)][(int)(PX + (WD * cos(RT) * 8)) / (TL_SZE)];
+	x = MAP2D[(int)PY / (TL_SZE)][(int)(PX + (WD * cos(RT) * 10)) / (TL_SZE)];
 	x1 = MAP2D[(int)PY / (TL_SZE)][(int)(PX + (SD
 	* cos(RT + 90 * M_PI / 180) * 8)) / (TL_SZE)];
 	RT = fmod(RT, 2 * M_PI);

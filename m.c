@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:59 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/30 18:58:19 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/12 23:59:05 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_drawmap(t_mpdt *map)
 	g_mlx_win = mlx_new_window(g_mlx_ptr, WH, HT, "");
 	mlx_hook(g_mlx_win, 2, 0, deal_key, map);
 	mlx_hook(g_mlx_win, 3, 0, release_key, map);
-	mlx_hook(g_mlx_win, 17, 0, ft_error, map);
+	mlx_hook(g_mlx_win, 17, 0, ft_quit, map);
 	mlx_loop_hook(g_mlx_ptr, draw, map);
 	mlx_loop(g_mlx_ptr);
 }

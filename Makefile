@@ -6,7 +6,7 @@
 #    By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/05 17:57:14 by yihssan           #+#    #+#              #
-#    Updated: 2020/11/30 16:10:52 by yihssan          ###   ########.fr        #
+#    Updated: 2020/12/13 00:05:52 by yihssan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ $(NAME)	:
 		ranlib lib.a
 		gcc lib.a -lmlx -g -framework OpenGL -framework appkit -o cub3D
 
-bonus:
+bonus: fclean
 	gcc -Wextra -Wall -Werror -c $(SRCB)
 	ar -rc lib.a *.o
 	ranlib lib.a

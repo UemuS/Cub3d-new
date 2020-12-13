@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 14:44:07 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/30 20:21:18 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/12 20:34:41 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,7 @@ void	to_sprite(t_mpdt *map, int m)
 			angle -= 2 * M_PI;
 		while (angle - RT < -M_PI)
 			angle += 2 * M_PI;
-		if (HT > WH)
-			SPRITES[k].size = (HT / SPRITES[k].dist) * TL_SZE;
-		else
-			SPRITES[k].size = (WH / SPRITES[k].dist) * TL_SZE;
+		SPRITES[k].size = (WH / SPRITES[k].dist) * TL_SZE;
 		SPRITES[k].y_off = HT / 2 - (int)SPRITES[k].size / 2;
 		SPRITES[k].x_off = ((DEG(angle) - DEG(RT)) * WH)
 			/ (float)TL_SZE + ((WH / 2) - (int)SPRITES[k].size / 2);

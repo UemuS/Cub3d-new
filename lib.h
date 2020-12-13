@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:34:33 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/30 20:16:00 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/13 00:15:18 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,7 @@ void				ft_cw_er(t_mpdt *map, int i, int j);
 void				ft_jmp(t_mpdt *map);
 int					ft_before_map(t_mpdt *map, char *line);
 void				ft_ayaya(t_mpdt *map);
+int					ft_quit(void);
 t_list				*g_mylist;
 void				*g_img_ptr;
 int					*g_img_data;

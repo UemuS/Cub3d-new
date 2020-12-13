@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:27 by yihssan           #+#    #+#             */
-/*   Updated: 2020/12/12 18:46:04 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/12 23:09:01 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ void	ft_sprite(t_mpdt *map, char *line)
 
 void	ft_floor(t_mpdt *map, char *line)
 {
-	static int	i = 0;
+	static int	i = 1;
 	static int	j = 0;
 
 	MCHECK++;
 	while (line[i++])
 	{
-		if (line[i] == 'F' && line[i + 1] != ' ')
-			ft_error("Something is wrong with the path F");
+		if (!ft_isdigit(line[i]) && line[i] != ' ' && line[i] != ',' && line[i])
+			ft_error("unwanted element in floor");
 		if (ft_isdigit(line[i]) || line[i] == '-' || line[i] == '+')
 		{
 			F[j] = ft_atoi(line + i);
@@ -66,20 +66,20 @@ void	ft_floor(t_mpdt *map, char *line)
 			if (!ft_isdigit(line[i - 1]) || !ft_isdigit(line[i + 1]))
 				ft_error("unwanted element in floor");
 	}
-	if (j != 3)
-		ft_error("not a valid color");
+	(j != 3) ? ft_error("not a valid color") : 0;
+	(line[i - 2] && !ft_isdigit(line[i - 2])) ? ft_error("why u add dis") : 0;
 }
 
 void	ft_ceeling(t_mpdt *map, char *line)
 {
-	static int	i = 0;
+	static int	i = 1;
 	static int	j = 0;
 
 	MCHECK++;
 	while (line[i++])
 	{
-		if (line[i] == 'C' && line[i + 1] != ' ')
-			ft_error("Something is wrong with the path C");
+		if (!ft_isdigit(line[i]) && line[i] != ' ' && line[i] != ',' && line[i])
+			ft_error("unwanted element in ceiling");
 		if (ft_isdigit(line[i]) || line[i] == '-' || line[i] == '+')
 		{
 			C[j] = ft_atoi(line + i);
@@ -90,8 +90,8 @@ void	ft_ceeling(t_mpdt *map, char *line)
 			if (!ft_isdigit(line[i - 1]) || !ft_isdigit(line[i + 1]))
 				ft_error("unwanted element in ceiling");
 	}
-	if (j != 3)
-		ft_error("not a valid color");
+	(j != 3) ? ft_error("not a valid color") : 0;
+	(line[i - 2] && !ft_isdigit(line[i - 2])) ? ft_error("why u add dis") : 0;
 }
 
 void	ft_intro(int fd)

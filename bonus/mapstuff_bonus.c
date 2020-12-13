@@ -6,7 +6,7 @@
 /*   By: yihssan <yihssan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 09:35:38 by yihssan           #+#    #+#             */
-/*   Updated: 2020/11/30 14:36:24 by yihssan          ###   ########.fr       */
+/*   Updated: 2020/12/13 00:14:16 by yihssan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	continuetreatingthatmap(t_mpdt *map)
 			while (MAP2D[i][++j])
 			{
 				g_count += (MAP2D[i][j] == '2') ? 1 : 0;
-				if (MAP2D[i][j] == '0')
+				if (MAP2D[i][j] == '0' || MAP2D[i][j] == '2'
+					|| MAP2D[i][j] == '3')
 					ft_cw_er(map, i, j);
 				if (MAP2D[i][j] == 'N' || MAP2D[i][j] == 'S'
 				|| MAP2D[i][j] == 'E' || MAP2D[i][j] == 'W')
